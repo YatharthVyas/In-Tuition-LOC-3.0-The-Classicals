@@ -1,15 +1,11 @@
-import React from "react";
+import React from 'react';
+import RootRouter from './components/router';
+import './App.css';
 
-import Router from "./Router";
-
-
-function app() {
-  return (
-    
-      <Router />
-   
-  );
-  return;
+function App() {
+	return (
+		<RootRouter/>
+	);
 }
 
-export default app;
+export default App;
