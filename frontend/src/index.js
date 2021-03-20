@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import CssBaseline from '@material-ui/core/CssBaseline'
-import App from './App'
-import { CustomThemeProvider } from './themes/CustomThemeProvider'
-import axios from "axios";
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import App from "./App";
+import { CustomThemeProvider } from "./themes/CustomThemeProvider";
+//import axios from "axios";
 
-//axios.defaults.baseURL = "http://localhost:8000";
+//axios.defaults.baseURL = "https://virtualclassloc.herokuapp.com/"; //"http://localhost:8000";
 ReactDOM.render(
 	<React.Fragment>
 		<CustomThemeProvider>
@@ -15,5 +15,5 @@ ReactDOM.render(
 			<App />
 		</CustomThemeProvider>
 	</React.Fragment>,
-	document.getElementById('root')
+	document.getElementById("root")
 );
