@@ -3,6 +3,10 @@ import Home from "../pages/home";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import Whiteboard from "../pages/whiteboard.js";
+import DashboardStudent from "../pages/dashboard_student.js";
+import Dashboard from "../pages/dashboard.js";
+import Search from "../pages/search.js";
+import Classroom from "../pages/classroom.js";
 import AddClassroom from "../pages/addClass.js";
 import Login from "../pages/login.js";
 import Signup from "../pages/signup.js";
@@ -21,7 +25,15 @@ function ProtectedRoutes() {
 			<Route exact path="/video-conf" component={VideoConf} />
 			<Route exact path="/whiteboard" component={Whiteboard} />
 			<Route exact path="/class/add" component={AddClassroom} />
+			{localStorage.getItem("isStudent") === "true" ? (
+				<Route exact path="/dashboard" component={DashboardStudent} />
+			) : (
+				<Route exact path="/dashboard" component={Dashboard} />
+			)}
+
+			<Route exact path="/search" component={Search} />
 			<Route exact path="/doubts" components={Chatbot} />
+			<Route exact path="/classroom/:cid" component={Classroom} />
 		</div>
 	) : (
 		<Redirect to="/" />
