@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Chatbox from "./chatbox.js";
+import Attentive from "./attentive.js";
 import Fab from "@material-ui/core/Fab";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -9,6 +10,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
 import { makeStyles } from "@material-ui/core/styles";
 import firebase from "./firebase";
+import axios from "axios";
 import "firebase/database";
 
 const useStyles = makeStyles((theme) => ({
@@ -75,6 +77,22 @@ function Whiteboard(props) {
 	const [img, setImg] = useState("");
 	const [imgOut, setImgOut] = useState("");
 	const canvas = useRef();
+
+	const checkAttention = () => {
+		let config = {
+			method: "get",
+			url: "http://localhost:8000/tutor/attentive/?checkStr=asda",
+			headers: {},
+		};
+
+		axios(config)
+			.then((response) => {
+				console.log(JSON.stringify(response.data));
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	const drawCanvas = (e) => {
 		if (painting) {
@@ -146,13 +164,13 @@ function Whiteboard(props) {
 		t.fillStyle = "black";
 		const onChildAdded = firebase
 			.database()
-			.ref(`Chats/abc`)
+			.ref(`WhiteBoard/abc`)
 			.on("child_changed", (snapshot) => {
 				setImgOut(snapshot.toJSON());
 				//console.log("VAL", snapshot.val());
 			});
 		return () =>
-			firebase.database().ref("Chats").off("child_added", onChildAdded);
+			firebase.database().ref("WhiteBoard").off("child_added", onChildAdded);
 	}, []);
 	return (
 		<div className={classes.root}>
@@ -226,7 +244,14 @@ function Whiteboard(props) {
 					<Chatbox />
 				</Grid>
 			</Grid>
-			{imgOut && (
+			{localStorage.getItem("isStudent") === "true" ? (
+				<Attentive />
+			) : (
+				<Button color="primary" onSubmit={checkAttention}>
+					Attentiveness Check
+				</Button>
+			)}
+			{imgOut && localStorage.getItem("isStudent") === "true" && (
 				<div>
 					<img src={imgOut} height="500px" width="800px" alt="whiteboard" />{" "}
 					<br />

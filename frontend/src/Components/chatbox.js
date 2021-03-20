@@ -7,34 +7,58 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import Checkbox from "@material-ui/core/Checkbox";
 import "./chat.css";
+import firebase from "./firebase";
+import "firebase/database";
 var Filter = require("bad-words"),
 	filter = new Filter();
 
 function ChatBox() {
-	useEffect(() => {
-		filter.addWords("saala", "kutta", "harami");
-	}, []);
 	const [input, setInput] = useState("");
 	const [anonymous, setAnonymous] = useState(false);
 	const [showWarning, setShowWarning] = useState(false);
 	const [messages, setMessage] = useState([
-		{
-			userName: "abc@gmail.com",
-			userId: "123",
-			userMessage:
-				"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aeneanc commodo ligula eget dolor.",
-		},
-		{
-			userName: "abc@gmail.com",
-			userId: "123",
-			userMessage:
-				"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aeneanc commodo ligula eget dolor.",
-		},
+		// {
+		//   userName: "abc@gmail.com",
+		//   userId: "123",
+		//   userMessage:
+		//     "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aeneanc commodo ligula eget dolor.",
+		// },
+		// {
+		//   userName: "abc@gmail.com",
+		//   userId: "123",
+		//   userMessage:
+		//     "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aeneanc commodo ligula eget dolor.",
+		// },
 	]);
+	useEffect(() => {
+		filter.addWords("saala", "kutta", "harami");
+
+		setMessage([]);
+		const onChildAdded = firebase
+			.database()
+			.ref(`Chats`)
+			.on("child_added", (snapshot) => {
+				let helperArr = [];
+				helperArr.push(snapshot.val());
+				setMessage((files) => [...files, ...helperArr]);
+				console.log(snapshot.val());
+			});
+		return () =>
+			firebase.database().ref("Chats").off("child_added", onChildAdded);
+	}, []);
+	const userName = localStorage.getItem("name");
+	const userId = localStorage.getItem("userId");
 	const sendDoubt = () => {
 		if (input.trim().length > 0 && filter.clean(input) === input) {
 			console.log(filter.clean(input) !== input);
 			console.log(input);
+			const uniqueKey = firebase.database().ref().push().key;
+			firebase.database().ref(`Chats/${uniqueKey}`).update({
+				userName: userName,
+				userId: userId,
+				userMessage: input,
+				anonymous: anonymous,
+			});
 			setInput("");
 		} else {
 			setShowWarning(true);
@@ -74,28 +98,19 @@ function ChatBox() {
 					{messages.map((item, index) => {
 						return (
 							<li
+								key={index}
 								className={
 									item.userId === localStorage.getItem("userId") ? "me" : "you"
 								}
 							>
 								<div className="entete">
-									<h2>{item.userName}</h2>
+									<h2>{item.anonymous ? "Anonymous" : item.userName}</h2>
 								</div>
 								<div className="triangle"></div>
 								<div className="message">{item.userMessage}</div>
 							</li>
 						);
 					})}
-					<li className="me">
-						<div className="entete">
-							<h2>Vincent</h2>
-						</div>
-						<div className="triangle"></div>
-						<div className="message">
-							Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-							commodo ligula eget dolor.
-						</div>
-					</li>
 				</ul>
 				<footer style={{ marginRight: 20 }}>
 					<TextField
