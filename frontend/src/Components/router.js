@@ -9,8 +9,19 @@ import {
 	Route,
 	BrowserRouter as Router,
 	Switch,
-	//Redirect,
+	Redirect,
 } from "react-router-dom";
+
+function ProtectedRoutes() {
+	return localStorage.getItem("userId") ? (
+		<div>
+			<Route exact path="/video-conf" component={VideoConf} />
+			<Route exact path="/whiteboard" component={Whiteboard} />
+		</div>
+	) : (
+		<Redirect to="/" />
+	);
+}
 
 function RootRouter() {
 	//const invalidRoute = () => <Redirect to='/' />; //This will send user back to homepage
@@ -22,9 +33,8 @@ function RootRouter() {
 				<div className="App">
 					<Switch>
 						<Route exact path="/" component={Home} />
-						<Route exact path="/whiteboard" component={Whiteboard} />
 						<Route exact path="/login" component={Login} />
-						<Route exact path="/video-conf" component={VideoConf} />
+						<Route component={ProtectedRoutes} />
 					</Switch>
 				</div>
 			</div>

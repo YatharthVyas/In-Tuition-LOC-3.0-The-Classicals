@@ -142,10 +142,11 @@ export default function LoginPage() {
 						axios(config)
 							.then((response) => {
 								console.log(JSON.stringify(response.data));
-								if (response.data.email) {
+								if (response.data.userId) {
 									localStorage.setItem("isStudent", response.data.isStudent);
 									localStorage.setItem("name", response.data.name);
 									localStorage.setItem("email", response.data.email);
+									localStorage.setItem("userId", response.data.userId);
 									history.push("/dashboard");
 								} else {
 									setTimeout(() => {
