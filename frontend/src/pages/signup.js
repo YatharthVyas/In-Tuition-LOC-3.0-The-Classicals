@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { CustomThemeContext } from "../themes/CustomThemeProvider";
 // Material UI Imports
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -15,6 +16,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 // Redirecting
 import { useHistory } from "react-router-dom";
 //API fetching
@@ -82,10 +84,12 @@ const useStyles = makeStyles((theme) => ({
 
 //Login page for a vendor staff
 export default function Signup() {
+	const { currentTheme } = useContext(CustomThemeContext);
 	const classes = useStyles();
 	const history = useHistory(); //Redirecting
 	const [showPassword, setShowPassword] = useState(0); //Toggle show password fieldd
 	const [student, setStudent] = useState(false); //student me checkbox
+	const [captcha, setCaptcha] = useState(false); //for captcha
 
 	function togglePassword() {
 		showPassword === 0 ? setShowPassword(1) : setShowPassword(0);
@@ -132,36 +136,43 @@ export default function Signup() {
 						return errors;
 					}}
 					onSubmit={(values, { setSubmitting }) => {
-						console.log(values);
-						//Submit Function for login
-						let data = JSON.stringify({
-							name: values.name,
-							email: values.email,
-							isStudent: values.student,
-							phone: values.phone,
-							password: values.password,
-						});
-
-						let config = {
-							method: "post",
-							url: "/user/add",
-							headers: {
-								"Content-Type": "application/json",
-							},
-							data: data,
-						};
-
-						axios(config)
-							.then((response) => {
-								history.push("/login");
-							})
-							.catch(function (error) {
-								console.log(error);
-								setTimeout(() => {
-									setSubmitting(false);
-								}, 1000);
-								setShowWarning(true);
+						if (captcha) {
+							console.log(values);
+							//Submit Function for login
+							let data = JSON.stringify({
+								name: values.name,
+								email: values.email,
+								isStudent: values.student,
+								phone: values.phone,
+								password: values.password,
 							});
+
+							let config = {
+								method: "post",
+								url: "/user/add",
+								headers: {
+									"Content-Type": "application/json",
+								},
+								data: data,
+							};
+
+							axios(config)
+								.then((response) => {
+									history.push("/login");
+								})
+								.catch(function (error) {
+									console.log(error);
+									setTimeout(() => {
+										setSubmitting(false);
+									}, 1000);
+									setShowWarning(true);
+								});
+						} else {
+							setTimeout(() => {
+								setSubmitting(false);
+							}, 1000);
+							setShowWarning(true);
+						}
 					}}
 				>
 					{({
@@ -180,7 +191,7 @@ export default function Signup() {
 								style={{ marginBottom: 80 }}
 							>
 								<Alert variant="filled" severity="error">
-									Invalid Email or Password
+									Captcha incomplete or Invalid Credentials
 								</Alert>
 							</Snackbar>
 							<TextField
@@ -265,6 +276,11 @@ export default function Signup() {
 								onChange={() => setStudent(!student)}
 							/>
 							<br />
+							<ReCAPTCHA
+								sitekey="6Leu8_QZAAAAAF_RAJJPjOsvrmbyoYEk1KNBiCSg"
+								onChange={(e) => setCaptcha(true)}
+								theme={currentTheme === "dark" ? "dark" : "light"}
+							/>
 							<div align="center">
 								<Button
 									type="submit"

@@ -24,7 +24,16 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+button:focus {
+	outline: none !important;
+}
+
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;
+}
+
+a {
+	color: inherit;
+	text-decoration: none !important;
 }

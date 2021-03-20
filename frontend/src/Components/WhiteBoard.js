@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
+import Chatbox from "./chatbox.js";
+import Attentive from "./attentive.js";
 import Fab from "@material-ui/core/Fab";
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import LayersClearIcon from "@material-ui/icons/LayersClear";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
 import { makeStyles } from "@material-ui/core/styles";
 import firebase from "./firebase";
+import axios from "axios";
 import "firebase/database";
+import { TextField } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -15,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	canvas: {
 		backgroundColor: "#ededed",
-		border: "3px solid #999",
+		boxShadow:
+			" 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
 	},
 	deleteIconBtn: {
 		backgroundColor: "#cc0000",
@@ -23,25 +30,37 @@ const useStyles = makeStyles((theme) => ({
 		"&:hover": {
 			backgroundColor: "#ff0000",
 		},
-		marginLeft: 20,
+		marginLeft: 5,
 		marginBottom: 10,
 	},
 	drawBlue: {
 		backgroundColor: "#1111ff !important",
 		color: "white",
-		marginLeft: 20,
+		marginLeft: 5,
+		marginBottom: 10,
+	},
+	drawGreen: {
+		backgroundColor: "green !important",
+		color: "white",
+		marginLeft: 5,
 		marginBottom: 10,
 	},
 	drawOrange: {
 		backgroundColor: "orange !important",
 		color: "white",
-		marginLeft: 20,
+		marginLeft: 5,
+		marginBottom: 10,
+	},
+	drawPurple: {
+		backgroundColor: "purple !important",
+		color: "white",
+		marginLeft: 5,
 		marginBottom: 10,
 	},
 	drawBlack: {
 		backgroundColor: "black !important",
 		color: "white",
-		marginLeft: 20,
+		marginLeft: 5,
 		marginBottom: 10,
 	},
 }));
@@ -59,6 +78,22 @@ function Whiteboard(props) {
 	const [img, setImg] = useState("");
 	const [imgOut, setImgOut] = useState("");
 	const canvas = useRef();
+
+	const checkAttention = () => {
+		let config = {
+			method: "get",
+			url: "http://localhost:8000/tutor/attentive/?checkStr=asda",
+			headers: {},
+		};
+
+		axios(config)
+			.then((response) => {
+				console.log(JSON.stringify(response.data));
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	const drawCanvas = (e) => {
 		if (painting) {
@@ -106,13 +141,15 @@ function Whiteboard(props) {
 
 	const clearCanvas = () => {
 		ctx.clearRect(0, 0, width, height);
+		ctx.fillStyle = "#ededed";
+		ctx.fillRect(0, 0, width, height);
 		sendBoardToServer();
 	};
 
 	const sendBoardToServer = () => {
 		var imgdata = canvas.current.toDataURL();
 		setImg(imgdata);
-		firebase.database().ref(`Chats/abc`).update({ imgURL: imgdata });
+		firebase.database().ref(`WhiteBoard/abc`).update({ imgURL: imgdata });
 	};
 
 	const setDrawColor = (color) => {
@@ -121,66 +158,140 @@ function Whiteboard(props) {
 	};
 
 	useEffect(() => {
-		setCtx(canvas.current.getContext("2d"));
+		if (localStorage.getItem("isStudent") === "false") {
+			setCtx(canvas.current.getContext("2d"));
+			var t = canvas.current.getContext("2d");
+			t.fillStyle = "#ededed";
+			t.fillRect(0, 0, width, height);
+			t.fillStyle = "black";
+		}
 		const onChildAdded = firebase
 			.database()
-			.ref(`Chats/abc`)
+			.ref(`WhiteBoard/abc`)
 			.on("child_changed", (snapshot) => {
 				setImgOut(snapshot.toJSON());
 				//console.log("VAL", snapshot.val());
 			});
 		return () =>
-			firebase.database().ref("Chats").off("child_added", onChildAdded);
+			firebase.database().ref("WhiteBoard").off("child_added", onChildAdded);
 	}, []);
 	return (
 		<div className={classes.root}>
 			<Grid container>
-				<Grid item xs={1}>
-					<Fab className={classes.deleteIconBtn} onClick={clearCanvas}>
-						<DeleteForeverIcon />
-					</Fab>
-					<br />
-					<Fab
-						className={classes.drawBlack}
-						onClick={() => setDrawColor("black")}
-					>
-						<CreateIcon />
-					</Fab>
-					<br />
-					<Fab
-						className={classes.drawBlue}
-						onClick={() => setDrawColor("blue")}
-					>
-						<CreateIcon />
-					</Fab>
-					<br />
-					<Fab
-						className={classes.drawOrange}
-						onClick={() => setDrawColor("orange")}
-					>
-						<CreateIcon />
-					</Fab>
-					<br />
-					<Fab className={classes.deleteIconBtn} onClick={() => setErase(true)}>
-						<LayersClearIcon />
-					</Fab>
-					<br />
+				<Grid item xs={9}>
+					{localStorage.getItem("isStudent") === "true" ? (
+						<div align="center">
+							{imgOut && (
+								<img
+									src={imgOut}
+									height="500px"
+									width="800px"
+									alt="whiteboard"
+								/>
+							)}
+							<br />
+							<div align="center">
+								{" "}
+								<br />
+								<a href={imgOut} download="Lecture_Screenshot.png">
+									<Button color="primary" variant="contained">
+										{" "}
+										<SystemUpdateAltIcon style={{ marginRight: 20 }} /> Capture
+										Notes
+									</Button>
+								</a>
+							</div>
+						</div>
+					) : (
+						<div>
+							<Grid container>
+								<Grid item xs={1}>
+									<Fab className={classes.deleteIconBtn} onClick={clearCanvas}>
+										<DeleteForeverIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.drawBlack}
+										onClick={() => setDrawColor("black")}
+									>
+										<CreateIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.drawBlue}
+										onClick={() => setDrawColor("blue")}
+									>
+										<CreateIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.drawGreen}
+										onClick={() => setDrawColor("green")}
+									>
+										<CreateIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.drawPurple}
+										onClick={() => setDrawColor("purple")}
+									>
+										<CreateIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.drawOrange}
+										onClick={() => setDrawColor("orange")}
+									>
+										<CreateIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.deleteIconBtn}
+										onClick={() => setErase(true)}
+									>
+										<LayersClearIcon />
+									</Fab>
+									<br />
+								</Grid>
+								<Grid item xs={11}>
+									<canvas
+										ref={canvas}
+										id="myCanvas"
+										height={height}
+										width={width}
+										onMouseMove={drawCanvas}
+										onClick={drawCanvas}
+										onMouseDown={onMouseDown}
+										onMouseUp={onMouseUp}
+										className={classes.canvas}
+									></canvas>
+								</Grid>
+							</Grid>
+							<div align="center" style={{ marginTop: 20 }}>
+								{localStorage.getItem("isStudent") === "true" ? (
+									<Attentive />
+								) : (
+									<div>
+										<TextField label="Enter keyword"></TextField>
+										<Button
+											size="large"
+											color="primary"
+											variant="outlined"
+											onSubmit={checkAttention}
+											style={{ marginLeft: 20 }}
+										>
+											Attentiveness Check
+										</Button>
+									</div>
+								)}
+							</div>
+						</div>
+					)}
 				</Grid>
-				<Grid item xs={11}>
-					<canvas
-						ref={canvas}
-						id="myCanvas"
-						height={height}
-						width={width}
-						onMouseMove={drawCanvas}
-						onClick={drawCanvas}
-						onMouseDown={onMouseDown}
-						onMouseUp={onMouseUp}
-						className={classes.canvas}
-					></canvas>
+				<Grid item xs={3}>
+					<Chatbox />
 				</Grid>
 			</Grid>
-			<img src={imgOut} alt="output" />
 		</div>
 	);
 }
