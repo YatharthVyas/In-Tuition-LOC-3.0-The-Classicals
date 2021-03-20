@@ -4,7 +4,9 @@ import './index.css';
 import CssBaseline from '@material-ui/core/CssBaseline'
 import App from './App'
 import { CustomThemeProvider } from './themes/CustomThemeProvider'
+import axios from "axios";
 
+//axios.defaults.baseURL = "http://localhost:8000";
 ReactDOM.render(
 	<React.Fragment>
 		<CustomThemeProvider>
