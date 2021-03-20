@@ -1,21 +1,58 @@
 import React, { useState, useEffect, useRef } from "react";
+import Fab from "@material-ui/core/Fab";
+import Grid from "@material-ui/core/Grid";
+import LayersClearIcon from "@material-ui/icons/LayersClear";
+import CreateIcon from "@material-ui/icons/Create";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { makeStyles } from "@material-ui/core/styles";
 import firebase from "./firebase";
 import "firebase/database";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: -20,
+    marginLeft: "-10%",
   },
   canvas: {
     backgroundColor: "#ededed",
     border: "3px solid #999",
   },
+  deleteIconBtn: {
+    backgroundColor: "#cc0000",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#ff0000",
+    },
+    marginLeft: 20,
+    marginBottom: 10,
+  },
+  drawBlue: {
+    backgroundColor: "#1111ff !important",
+    color: "white",
+    marginLeft: 20,
+    marginBottom: 10,
+  },
+  drawOrange: {
+    backgroundColor: "orange !important",
+    color: "white",
+    marginLeft: 20,
+    marginBottom: 10,
+  },
+  drawBlack: {
+    backgroundColor: "black !important",
+    color: "white",
+    marginLeft: 20,
+    marginBottom: 10,
+  },
 }));
 
 function Whiteboard(props) {
+  const width = 800;
+  const height = 500;
   const classes = useStyles();
   const [painting, setPainting] = useState(false);
   const [updateDrawing, setUpdateDrawing] = useState(true);
+  const [erase, setErase] = useState(false);
   const [ctx, setCtx] = useState(null);
   const [lastX, setLastX] = useState();
   const [lastY, setLastY] = useState();
@@ -26,18 +63,19 @@ function Whiteboard(props) {
   const drawCanvas = (e) => {
     if (painting) {
       let mousepos = findMousePos(e);
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(mousepos.x, mousepos.y);
-      ctx.closePath();
-      ctx.stroke();
-      setLastX(mousepos.x);
-      setLastY(mousepos.y);
+      if (erase) {
+        ctx.clearRect(mousepos.x - 10, mousepos.y - 10, 20, 20);
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(mousepos.x, mousepos.y);
+        ctx.closePath();
+        ctx.stroke();
+        setLastX(mousepos.x);
+        setLastY(mousepos.y);
+      }
       if (updateDrawing) {
-        var imgdata = canvas.current.toDataURL();
-        setImg(imgdata);
-        firebase.database().ref(`Chats/abc`).update({ imgURL: imgdata });
-        // console.log(img.length);
+        sendBoardToServer();
         setUpdateDrawing(false);
         setTimeout(() => setUpdateDrawing(true), 300);
       }
@@ -52,9 +90,8 @@ function Whiteboard(props) {
   };
 
   const onMouseUp = () => {
-    var imgdata = canvas.current.toDataURL();
-    setImg(imgdata);
     setPainting(false);
+    sendBoardToServer();
   };
 
   const findMousePos = (evt) => {
@@ -67,17 +104,29 @@ function Whiteboard(props) {
     };
   };
 
+  const clearCanvas = () => {
+    ctx.clearRect(0, 0, width, height);
+    sendBoardToServer();
+  };
+
+  const sendBoardToServer = () => {
+    var imgdata = canvas.current.toDataURL();
+    setImg(imgdata);
+    firebase.database().ref(`Chats/abc`).update({ imgURL: imgdata });
+  };
+
+  const setDrawColor = (color) => {
+    setErase(false);
+    ctx.strokeStyle = color;
+  };
+
   useEffect(() => {
     setCtx(canvas.current.getContext("2d"));
     const onChildAdded = firebase
       .database()
       .ref(`Chats/abc`)
       .on("child_changed", (snapshot) => {
-        // console.log("aaa");
-        // let helperArr = [];
-        // helperArr.push(snapshot.val());
         setImgOut(snapshot.toJSON());
-        // setFilesArr((files) => [...files, ...helperArr]);
         console.log("VAL", snapshot.val());
       });
     return () =>
@@ -85,18 +134,52 @@ function Whiteboard(props) {
   }, []);
   return (
     <div className={classes.root}>
-      <canvas
-        ref={canvas}
-        id="myCanvas"
-        height="500"
-        width="800"
-        onMouseMove={drawCanvas}
-        onClick={drawCanvas}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        className={classes.canvas}
-      ></canvas>
-      {/* {console.log(imgOut)} */}
+      <Grid container>
+        <Grid item xs={1}>
+          <Fab className={classes.deleteIconBtn} onClick={clearCanvas}>
+            <DeleteForeverIcon />
+          </Fab>
+          <br />
+          <Fab
+            className={classes.drawBlack}
+            onClick={() => setDrawColor("black")}
+          >
+            <CreateIcon />
+          </Fab>
+          <br />
+          <Fab
+            className={classes.drawBlue}
+            onClick={() => setDrawColor("blue")}
+          >
+            <CreateIcon />
+          </Fab>
+          <br />
+          <Fab
+            className={classes.drawOrange}
+            onClick={() => setDrawColor("orange")}
+          >
+            <CreateIcon />
+          </Fab>
+          <br />
+          <Fab className={classes.deleteIconBtn} onClick={() => setErase(true)}>
+            <LayersClearIcon />
+          </Fab>
+          <br />
+        </Grid>
+        <Grid item xs={11}>
+          <canvas
+            ref={canvas}
+            id="myCanvas"
+            height={height}
+            width={width}
+            onMouseMove={drawCanvas}
+            onClick={drawCanvas}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+            className={classes.canvas}
+          ></canvas>
+        </Grid>
+      </Grid>
       <img src={imgOut} alt="output" />
     </div>
   );
