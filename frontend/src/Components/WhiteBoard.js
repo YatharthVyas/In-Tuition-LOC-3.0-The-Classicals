@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import firebase from "./firebase";
 import axios from "axios";
 import "firebase/database";
+import { TextField } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -148,7 +149,7 @@ function Whiteboard(props) {
 	const sendBoardToServer = () => {
 		var imgdata = canvas.current.toDataURL();
 		setImg(imgdata);
-		firebase.database().ref(`Chats/abc`).update({ imgURL: imgdata });
+		firebase.database().ref(`WhiteBoard/abc`).update({ imgURL: imgdata });
 	};
 
 	const setDrawColor = (color) => {
@@ -157,11 +158,13 @@ function Whiteboard(props) {
 	};
 
 	useEffect(() => {
-		setCtx(canvas.current.getContext("2d"));
-		var t = canvas.current.getContext("2d");
-		t.fillStyle = "#ededed";
-		t.fillRect(0, 0, width, height);
-		t.fillStyle = "black";
+		if (localStorage.getItem("isStudent") === "false") {
+			setCtx(canvas.current.getContext("2d"));
+			var t = canvas.current.getContext("2d");
+			t.fillStyle = "#ededed";
+			t.fillRect(0, 0, width, height);
+			t.fillStyle = "black";
+		}
 		const onChildAdded = firebase
 			.database()
 			.ref(`WhiteBoard/abc`)
@@ -176,96 +179,119 @@ function Whiteboard(props) {
 		<div className={classes.root}>
 			<Grid container>
 				<Grid item xs={9}>
-					<Grid container>
-						<Grid item xs={1}>
-							<Fab className={classes.deleteIconBtn} onClick={clearCanvas}>
-								<DeleteForeverIcon />
-							</Fab>
+					{localStorage.getItem("isStudent") === "true" ? (
+						<div align="center">
+							{imgOut && (
+								<img
+									src={imgOut}
+									height="500px"
+									width="800px"
+									alt="whiteboard"
+								/>
+							)}
 							<br />
-							<Fab
-								className={classes.drawBlack}
-								onClick={() => setDrawColor("black")}
-							>
-								<CreateIcon />
-							</Fab>
-							<br />
-							<Fab
-								className={classes.drawBlue}
-								onClick={() => setDrawColor("blue")}
-							>
-								<CreateIcon />
-							</Fab>
-							<br />
-							<Fab
-								className={classes.drawGreen}
-								onClick={() => setDrawColor("green")}
-							>
-								<CreateIcon />
-							</Fab>
-							<br />
-							<Fab
-								className={classes.drawPurple}
-								onClick={() => setDrawColor("purple")}
-							>
-								<CreateIcon />
-							</Fab>
-							<br />
-							<Fab
-								className={classes.drawOrange}
-								onClick={() => setDrawColor("orange")}
-							>
-								<CreateIcon />
-							</Fab>
-							<br />
-							<Fab
-								className={classes.deleteIconBtn}
-								onClick={() => setErase(true)}
-							>
-								<LayersClearIcon />
-							</Fab>
-							<br />
-						</Grid>
-						<Grid item xs={11}>
-							<canvas
-								ref={canvas}
-								id="myCanvas"
-								height={height}
-								width={width}
-								onMouseMove={drawCanvas}
-								onClick={drawCanvas}
-								onMouseDown={onMouseDown}
-								onMouseUp={onMouseUp}
-								className={classes.canvas}
-							></canvas>
-						</Grid>
-					</Grid>
+							<div align="center">
+								{" "}
+								<br />
+								<a href={imgOut} download="Lecture_Screenshot.png">
+									<Button color="primary" variant="contained">
+										{" "}
+										<SystemUpdateAltIcon style={{ marginRight: 20 }} /> Capture
+										Notes
+									</Button>
+								</a>
+							</div>
+						</div>
+					) : (
+						<div>
+							<Grid container>
+								<Grid item xs={1}>
+									<Fab className={classes.deleteIconBtn} onClick={clearCanvas}>
+										<DeleteForeverIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.drawBlack}
+										onClick={() => setDrawColor("black")}
+									>
+										<CreateIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.drawBlue}
+										onClick={() => setDrawColor("blue")}
+									>
+										<CreateIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.drawGreen}
+										onClick={() => setDrawColor("green")}
+									>
+										<CreateIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.drawPurple}
+										onClick={() => setDrawColor("purple")}
+									>
+										<CreateIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.drawOrange}
+										onClick={() => setDrawColor("orange")}
+									>
+										<CreateIcon />
+									</Fab>
+									<br />
+									<Fab
+										className={classes.deleteIconBtn}
+										onClick={() => setErase(true)}
+									>
+										<LayersClearIcon />
+									</Fab>
+									<br />
+								</Grid>
+								<Grid item xs={11}>
+									<canvas
+										ref={canvas}
+										id="myCanvas"
+										height={height}
+										width={width}
+										onMouseMove={drawCanvas}
+										onClick={drawCanvas}
+										onMouseDown={onMouseDown}
+										onMouseUp={onMouseUp}
+										className={classes.canvas}
+									></canvas>
+								</Grid>
+							</Grid>
+							<div align="center" style={{ marginTop: 20 }}>
+								{localStorage.getItem("isStudent") === "true" ? (
+									<Attentive />
+								) : (
+									<div>
+										<TextField label="Enter keyword"></TextField>
+										<Button
+											size="large"
+											color="primary"
+											variant="outlined"
+											onSubmit={checkAttention}
+											style={{ marginLeft: 20 }}
+										>
+											Attentiveness Check
+										</Button>
+									</div>
+								)}
+							</div>
+						</div>
+					)}
 				</Grid>
 				<Grid item xs={3}>
 					<Chatbox />
 				</Grid>
 			</Grid>
-			{localStorage.getItem("isStudent") === "true" ? (
-				<Attentive />
-			) : (
-				<Button color="primary" onSubmit={checkAttention}>
-					Attentiveness Check
-				</Button>
-			)}
-			{imgOut && localStorage.getItem("isStudent") === "true" && (
-				<div>
-					<img src={imgOut} height="500px" width="800px" alt="whiteboard" />{" "}
-					<br />
-					<div align="center">
-						<a href={imgOut} download="Lecture_Screenshot.png">
-							<Button color="primary" variant="contained">
-								{" "}
-								<SystemUpdateAltIcon style={{ marginRight: 20 }} /> Capture
-								Notes
-							</Button>
-						</a>
-					</div>
-				</div>
-			)}
 		</div>
 	);
 }
