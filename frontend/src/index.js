@@ -8,12 +8,12 @@ import axios from "axios";
 
 axios.defaults.baseURL = "https://virtualclassloc.herokuapp.com/"; //"http://localhost:8000";
 ReactDOM.render(
-  <React.Fragment>
-    <CustomThemeProvider>
-      {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-      <CssBaseline />
-      <App />
-    </CustomThemeProvider>
-  </React.Fragment>,
-  document.getElementById("root")
+	<React.Fragment>
+		<CustomThemeProvider>
+			{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+			<CssBaseline />
+			<App />
+		</CustomThemeProvider>
+	</React.Fragment>,
+	document.getElementById("root")
 );
