@@ -71,7 +71,7 @@ export default function PersistentDrawerLeft() {
 
 React.useEffect(() => {
 
-    axios.get(`https://virtualclassloc.herokuapp.com/tutor/mybatches/?tutorId=${localStorage.getItem("userId")}`
+    axios.get(`https://virtualclassloc.herokuapp.com/student/enrolled_batches?studentId=${localStorage.getItem("userId")}`
    
     ).then((response) => {
 
@@ -117,10 +117,10 @@ var image_arr = [
     alignItems="center">
         
             
-            <Grid item xs={4}></Grid>
-            <Grid  item xs={5}>
-            {/*<TextField value={searchTerm} onChange={handleChange1} id="outlined-basic" label="Search" variant="outlined" />*/}
-            
+            <Grid item xs={5}></Grid>
+            <Grid  item xs={4}>
+           {/*<TextField value={searchTerm} onChange={handleChange1} id="outlined-basic" label="Search" variant="outlined" />*/} 
+    
             </Grid>
             <Grid className='icons' item xs={3}>
             </Grid>
@@ -130,7 +130,7 @@ var image_arr = [
     {subData.map((item) => {
         return(
 <Grid item xs = {4}>
-          <Paper elevation = {3} style = {{height:"300px",borderRadius:"10px",paddingTop:"10px",paddingBottom:"10px"}}>
+<a style = {{textDecoration:"none"}} href={`/classroom/${item._id}`} target="_blank" rel = "noopener noreferrer"> <Paper  elevation = {3} style = {{height:"300px",borderRadius:"10px",paddingTop:"10px",paddingBottom:"10px",cursor:"pointer"}}>
           <div style = {{height:"60%",backgroundColor:color_arr[item.info.subject.length%10],borderRadius:"10px",paddingLeft:"10px",paddingRight:"10px"}}>
 <Grid container spacing = {2}>
     <Grid item xs = {8}>
@@ -144,7 +144,7 @@ var image_arr = [
 
 </div>   
 <h1 style = {{marginLeft:"10px"}}>{item.info.tutor}</h1>  
-          </Paper>
+          </Paper></a>
       </Grid>
         )
         

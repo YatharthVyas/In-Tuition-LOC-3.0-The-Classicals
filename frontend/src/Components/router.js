@@ -4,10 +4,16 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 import Whiteboard from "../pages/whiteboard.js";
 import Dashboard from "../pages/dashboard.js";
+import DashboardStudent from "../pages/dashboard_student.js";
+import Search from "../pages/search.js";
+import Classroom from "../pages/classroom.js";
+import CreateRoom from "../pages/CreateRoom";
+import Room from "../pages/Room";
 import AddClassroom from "../pages/addClass.js";
 import Login from "../pages/login.js";
 import Signup from "../pages/signup.js";
 import VideoConf from "./VideoConf.js";
+import { useHistory } from "react-router-dom";
 import {
 	Route,
 	BrowserRouter as Router,
@@ -30,7 +36,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useHistory } from 'react-router-dom';
+
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { CustomThemeContext } from '../themes/CustomThemeProvider';
@@ -108,6 +114,7 @@ export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -131,15 +138,36 @@ console.log("Name" + localStorage.getItem("name"))
 	function ProtectedRoutes() {
 		return localStorage.getItem("userId") ? (
 			<div>
-				<Route exact path="/video-conf" component={VideoConf} />
+				
 				<Route exact path="/whiteboard" component={Whiteboard} />
+				<Route path="/videocon" exact component={CreateRoom} />
+        <Route path="/room/:roomID" component={Room} />
 				<Route exact path="/class/add" component={AddClassroom} />
-				<Route exact path="/dashboard" component={Dashboard} />
+				{localStorage.getItem("isStudent") === "true" ?
+				<Route exact path="/dashboard" component={DashboardStudent} />
+				
+			:
+			<Route exact path="/dashboard" component={Dashboard} />
+			}
+			 	<Route exact path="/classroom/:cid" component={Classroom} />
+				
+				<Route exact path="/search" component={Search} />
+				
 			</div>
 		) : (
 			<Redirect to="/" />
 		);
 	}
+	var arr = [];
+	if(localStorage.getItem("isStudent") === "true")
+	arr = [
+		{name:'My Batches',page:"/dashboard"}, {name:'Search Batches',page:"/search"}, {name:'Assignments',page:"/dashboard"}, {name:'Calendar',page:"/dashboard"}]
+
+	else if(localStorage.getItem("isStudent") === "false")
+	arr = [{name:'My Batches',page:"/dashboard"}, {name:'Doubts',page:"/dashboard"}, {name:'Calendar',page:"/dashboard"},{name:'Create Assignment',page:"/dashboard"}]
+
+
+	
 
   return (
     <div>
@@ -213,22 +241,25 @@ console.log("Name" + localStorage.getItem("name"))
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+		{localStorage.getItem("isStudent") === "true" ? 
+		arr.map((text, index) => (
+            <a style = {{color:"inherit",textDecoration:"none"}} href = {text.page}><ListItem button key={text}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={text.name} />
+            </ListItem></a>
+          ))
+		:
+		arr.map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
-          ))}
+          ))
+		}	
+          
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+        
         
       </Drawer>
       <main
@@ -243,9 +274,10 @@ console.log("Name" + localStorage.getItem("name"))
         
          
 		  <Switch>
-		<Route exact path="/" component={Home} />
-		<Route exact path="/login" component={Login} />
+		 
+		<Route exact path="/login"  component={Login} />
 		<Route exact path="/signup" component={Signup} />
+		
 		<Route component={ProtectedRoutes} />
 		</Switch>
       

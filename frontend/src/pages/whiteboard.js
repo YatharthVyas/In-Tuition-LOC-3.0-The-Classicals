@@ -1,5 +1,6 @@
 import React from "react";
 import Whiteboard from "../Components/WhiteBoard";
+
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,6 +13,7 @@ function WhiteboardPage(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+    
       <Whiteboard />
     </div>
   );
