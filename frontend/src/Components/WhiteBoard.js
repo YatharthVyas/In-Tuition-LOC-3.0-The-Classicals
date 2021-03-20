@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
 function Whiteboard(props) {
 	const classes = useStyles();
 	const [painting, setPainting] = useState(false);
+	const [updateDrawing, setUpdateDrawing] = useState(true);
 	const [ctx, setCtx] = useState(null);
 	const [lastX, setLastX] = useState()
 	const [lastY, setLastY] = useState()
@@ -30,17 +31,26 @@ function Whiteboard(props) {
 			ctx.stroke();
 			setLastX(mousepos.x)
 			setLastY(mousepos.y)
-			var imgdata = canvas.current.toDataURL()
-			//console.log(imgdata.length)
-			setImg(imgdata)
+			if(updateDrawing) {
+				var imgdata = canvas.current.toDataURL()
+				setImg(imgdata)
+				setUpdateDrawing(false)
+				setTimeout(() => setUpdateDrawing(true), 300)
+			}
 		}
 	}
 
-	function onMouseDown(e) {
+	const onMouseDown = (e) => {
 		var m = findMousePos(e);
 		setLastX(m.x)
 		setLastY(m.y)
 		setPainting(true)
+	}
+
+	const onMouseUp = () => {
+		var imgdata = canvas.current.toDataURL()
+		setImg(imgdata)
+		setPainting(false)
 	}
 
 	const findMousePos = (evt) => {
@@ -58,7 +68,7 @@ function Whiteboard(props) {
 	}, [])
 	return (
 		<div className={classes.root}>
-			<canvas ref={canvas} id="myCanvas" height="500" width="800" onMouseMove={drawCanvas} onClick={drawCanvas} onMouseDown={onMouseDown} onMouseUp={()=>setPainting(false)} className={classes.canvas}>
+			<canvas ref={canvas} id="myCanvas" height="500" width="800" onMouseMove={drawCanvas} onClick={drawCanvas} onMouseDown={onMouseDown} onMouseUp={onMouseUp} className={classes.canvas}>
 			</canvas>
 			<img src={img} alt="output"/>
     	</div>
