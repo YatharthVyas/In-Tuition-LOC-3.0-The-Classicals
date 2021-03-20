@@ -11,6 +11,7 @@ import AddClassroom from "../pages/addClass.js";
 import Login from "../pages/login.js";
 import Signup from "../pages/signup.js";
 import VideoConf from "./VideoConf.js";
+import Chatbot from "../Components/chatbot.js";
 import {
 	Route,
 	BrowserRouter as Router,
@@ -21,15 +22,16 @@ import {
 function ProtectedRoutes() {
 	return localStorage.getItem("userId") ? (
 		<div>
+			{localStorage.getItem("isStudent") === "true" && <Chatbot />}
 			<Route exact path="/video-conf" component={VideoConf} />
 			<Route exact path="/whiteboard" component={Whiteboard} />
 			<Route exact path="/class/add" component={AddClassroom} />
-			{localStorage.getItem("isStudent") === "true" ?
-			<Route exact path="/dashboard" component={DashboardStudent} />
-		:
-		<Route exact path="/dashboard" component={Dashboard} />
-		}
-			
+			{localStorage.getItem("isStudent") === "true" ? (
+				<Route exact path="/dashboard" component={DashboardStudent} />
+			) : (
+				<Route exact path="/dashboard" component={Dashboard} />
+			)}
+
 			<Route exact path="/search" component={Search} />
 			<Route exact path="/classroom/:cid" component={Classroom} />
 		</div>
