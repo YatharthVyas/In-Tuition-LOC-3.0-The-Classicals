@@ -4,13 +4,15 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 import Whiteboard from "../pages/whiteboard.js";
 import Dashboard from "../pages/dashboard.js";
+import AddClassroom from "../pages/addClass.js";
 import Login from "../pages/login.js";
+import Signup from "../pages/signup.js";
 import VideoConf from "./VideoConf.js";
 import {
 	Route,
 	BrowserRouter as Router,
 	Switch,
-	//Redirect,
+	Redirect,
 } from "react-router-dom";
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -126,6 +128,18 @@ console.log("Name" + localStorage.getItem("name"))
 		}
 	};
 
+	function ProtectedRoutes() {
+		return localStorage.getItem("userId") ? (
+			<div>
+				<Route exact path="/video-conf" component={VideoConf} />
+				<Route exact path="/whiteboard" component={Whiteboard} />
+				<Route exact path="/class/add" component={AddClassroom} />
+				<Route exact path="/dashboard" component={Dashboard} />
+			</div>
+		) : (
+			<Redirect to="/" />
+		);
+	}
 
   return (
     <div>
@@ -227,15 +241,13 @@ console.log("Name" + localStorage.getItem("name"))
       <div id='page-container'>
         
         
-          <Switch>
-		  <Route exact path="/" component={Home} />
-		  <Route exact path="/whiteboard" component={Whiteboard} />
-		  <Route exact path="/login" component={Login} />
-		  <Route exact path="/video-conf" component={VideoConf} />
-		  <Route exact path="/dashboard" component={Dashboard} />
-            
-            
-          </Switch>
+         
+		  <Switch>
+		<Route exact path="/" component={Home} />
+		<Route exact path="/login" component={Login} />
+		<Route exact path="/signup" component={Signup} />
+		<Route component={ProtectedRoutes} />
+		</Switch>
       
       </div>
       </Router>
@@ -249,6 +261,9 @@ console.log("Name" + localStorage.getItem("name"))
    </footer>
    </div>
   );
+
+
+
 }
 
 
