@@ -59,7 +59,9 @@ function ChatBox() {
 				style={{ marginBottom: 80 }}
 			>
 				<Alert variant="filled" severity="error">
-					Invalid Message
+					{input.trim().length === 0
+						? "Message too short"
+						: "Message flagged as Inappropriate"}
 				</Alert>
 			</Snackbar>
 			<main>

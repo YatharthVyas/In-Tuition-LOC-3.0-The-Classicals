@@ -36,8 +36,20 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: 5,
 		marginBottom: 10,
 	},
+	drawGreen: {
+		backgroundColor: "green !important",
+		color: "white",
+		marginLeft: 5,
+		marginBottom: 10,
+	},
 	drawOrange: {
 		backgroundColor: "orange !important",
+		color: "white",
+		marginLeft: 5,
+		marginBottom: 10,
+	},
+	drawPurple: {
+		backgroundColor: "purple !important",
 		color: "white",
 		marginLeft: 5,
 		marginBottom: 10,
@@ -162,6 +174,20 @@ function Whiteboard(props) {
 							<Fab
 								className={classes.drawBlue}
 								onClick={() => setDrawColor("blue")}
+							>
+								<CreateIcon />
+							</Fab>
+							<br />
+							<Fab
+								className={classes.drawGreen}
+								onClick={() => setDrawColor("green")}
+							>
+								<CreateIcon />
+							</Fab>
+							<br />
+							<Fab
+								className={classes.drawPurple}
+								onClick={() => setDrawColor("purple")}
 							>
 								<CreateIcon />
 							</Fab>
