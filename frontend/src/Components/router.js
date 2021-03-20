@@ -7,6 +7,7 @@ import AddClassroom from "../pages/addClass.js";
 import Login from "../pages/login.js";
 import Signup from "../pages/signup.js";
 import VideoConf from "./VideoConf.js";
+import Chatbot from "../Components/chatbot.js";
 import {
 	Route,
 	BrowserRouter as Router,
@@ -20,6 +21,7 @@ function ProtectedRoutes() {
 			<Route exact path="/video-conf" component={VideoConf} />
 			<Route exact path="/whiteboard" component={Whiteboard} />
 			<Route exact path="/class/add" component={AddClassroom} />
+			<Route exact path="/doubts" components={Chatbot} />
 		</div>
 	) : (
 		<Redirect to="/" />
