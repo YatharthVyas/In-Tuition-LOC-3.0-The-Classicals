@@ -515,7 +515,7 @@ function Home(props) {
 
 			<script src="assets/js/custom.js"></script>
 
-			{/* <Chatbot /> */}
+			<Chatbot />
 		</div>
 	);
 }

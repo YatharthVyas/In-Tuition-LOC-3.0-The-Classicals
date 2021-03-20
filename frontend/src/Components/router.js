@@ -22,6 +22,7 @@ import {
 function ProtectedRoutes() {
 	return localStorage.getItem("userId") ? (
 		<div>
+			{localStorage.getItem("isStudent") === "true" && <Chatbot />}
 			<Route exact path="/video-conf" component={VideoConf} />
 			<Route exact path="/whiteboard" component={Whiteboard} />
 			<Route exact path="/class/add" component={AddClassroom} />
@@ -32,7 +33,6 @@ function ProtectedRoutes() {
 			)}
 
 			<Route exact path="/search" component={Search} />
-			<Route exact path="/doubts" components={Chatbot} />
 			<Route exact path="/classroom/:cid" component={Classroom} />
 		</div>
 	) : (
