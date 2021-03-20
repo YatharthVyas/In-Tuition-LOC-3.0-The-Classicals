@@ -9,10 +9,16 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
+import MCQ from "./mcq";
+import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import {useParams} from 'react-router-dom';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
 import { useHistory } from 'react-router-dom';
@@ -78,26 +84,18 @@ export default function PersistentDrawerLeft() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
-  const [open, setOpen] = React.useState(false);
+  
   const [subData,setSubData] = React.useState([]);
 
   const [searchTerm, setSearchTerm] = React.useState("");
  
  const [searchResults, setSearchResults] = React.useState([]);
+ const [testOpen,setTestOpen] = React.useState(0);
  
  const params = useParams();
  console.log(params.cid);
- const handleChange1 = event => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+ 
+ 
 
   var subject_data = [
     {title:"MACHINE LEARNING",teacher:"Prof K. Sharma"},
@@ -136,7 +134,21 @@ React.useEffect(() => {
 
 },[])
     
+const [open, setOpen] = React.useState(false);
+const handleClickOpen = () => {
+   
+ 
+    setOpen(true);  
+  };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSendId = () => {
+      setOpen(false);
+      setTestOpen(1);
+  }
 
 
 
@@ -166,15 +178,48 @@ React.useEffect(() => {
         Whiteboard
         </TabPanel>
         <TabPanel style = {{marginTop:"20px"}} value={value} index={1} dir={theme.direction}>
-         Lecture
+        <a href = "http://localhost:5500/room/eb61b1b0-89bb-11eb-825e-61471acf75a9" target="_blank" rel = "noopener noreferrer"><button >Video Conferencing</button></a>
         </TabPanel>
         <TabPanel style = {{marginTop:"20px"}} value={value} index={2} dir={theme.direction}>
-          Assignments
+        
         </TabPanel>
-        <TabPanel style = {{marginTop:"20px"}} value={value} index={2} dir={theme.direction}>
-        Tests
+        <TabPanel style = {{marginTop:"20px"}} value={value} index={3} dir={theme.direction}>
+        {testOpen == 1?
+        <div>
+             MCQ TEST
+          <MCQ />
+        
+        </div>
+    :
+    <Paper style = {{height:"130px"}} elevation = {3}>
+        <Button style = {{marginLeft:"10px"}} variant="outlined" color="primary"  onClick={() => handleClickOpen()}>
+       ATTEMPT TEST
+      </Button>
+    </Paper>    
+    }
         </TabPanel>
       </SwipeableViews>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Are you sure you want to attempt the test?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleSendId} color="primary">
+           <p id = "Sid"> Yes </p>
+          </Button>
+          <Button onClick={handleClose} color="primary" autoFocus>
+           No
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
