@@ -50,9 +50,7 @@ function Navbar() {
 	const { currentTheme, setTheme } = useContext(CustomThemeContext);
 	const [state, setState] = React.useState({
 		top: false,
-		left: false,
-		bottom: false,
-		right: false,
+	
 	  });
 
 	  var arr = [];
