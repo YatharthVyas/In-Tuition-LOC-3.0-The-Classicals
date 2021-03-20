@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
+import Chatbox from "./chatbox.js";
 import Fab from "@material-ui/core/Fab";
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import LayersClearIcon from "@material-ui/icons/LayersClear";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
 import { makeStyles } from "@material-ui/core/styles";
 import firebase from "./firebase";
 import "firebase/database";
@@ -15,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	canvas: {
 		backgroundColor: "#ededed",
-		border: "3px solid #999",
+		boxShadow:
+			" 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
 	},
 	deleteIconBtn: {
 		backgroundColor: "#cc0000",
@@ -23,25 +27,25 @@ const useStyles = makeStyles((theme) => ({
 		"&:hover": {
 			backgroundColor: "#ff0000",
 		},
-		marginLeft: 20,
+		marginLeft: 5,
 		marginBottom: 10,
 	},
 	drawBlue: {
 		backgroundColor: "#1111ff !important",
 		color: "white",
-		marginLeft: 20,
+		marginLeft: 5,
 		marginBottom: 10,
 	},
 	drawOrange: {
 		backgroundColor: "orange !important",
 		color: "white",
-		marginLeft: 20,
+		marginLeft: 5,
 		marginBottom: 10,
 	},
 	drawBlack: {
 		backgroundColor: "black !important",
 		color: "white",
-		marginLeft: 20,
+		marginLeft: 5,
 		marginBottom: 10,
 	},
 }));
@@ -106,6 +110,8 @@ function Whiteboard(props) {
 
 	const clearCanvas = () => {
 		ctx.clearRect(0, 0, width, height);
+		ctx.fillStyle = "#ededed";
+		ctx.fillRect(0, 0, width, height);
 		sendBoardToServer();
 	};
 
@@ -122,6 +128,10 @@ function Whiteboard(props) {
 
 	useEffect(() => {
 		setCtx(canvas.current.getContext("2d"));
+		var t = canvas.current.getContext("2d");
+		t.fillStyle = "#ededed";
+		t.fillRect(0, 0, width, height);
+		t.fillStyle = "black";
 		const onChildAdded = firebase
 			.database()
 			.ref(`Chats/abc`)
@@ -135,52 +145,76 @@ function Whiteboard(props) {
 	return (
 		<div className={classes.root}>
 			<Grid container>
-				<Grid item xs={1}>
-					<Fab className={classes.deleteIconBtn} onClick={clearCanvas}>
-						<DeleteForeverIcon />
-					</Fab>
-					<br />
-					<Fab
-						className={classes.drawBlack}
-						onClick={() => setDrawColor("black")}
-					>
-						<CreateIcon />
-					</Fab>
-					<br />
-					<Fab
-						className={classes.drawBlue}
-						onClick={() => setDrawColor("blue")}
-					>
-						<CreateIcon />
-					</Fab>
-					<br />
-					<Fab
-						className={classes.drawOrange}
-						onClick={() => setDrawColor("orange")}
-					>
-						<CreateIcon />
-					</Fab>
-					<br />
-					<Fab className={classes.deleteIconBtn} onClick={() => setErase(true)}>
-						<LayersClearIcon />
-					</Fab>
-					<br />
+				<Grid item xs={9}>
+					<Grid container>
+						<Grid item xs={1}>
+							<Fab className={classes.deleteIconBtn} onClick={clearCanvas}>
+								<DeleteForeverIcon />
+							</Fab>
+							<br />
+							<Fab
+								className={classes.drawBlack}
+								onClick={() => setDrawColor("black")}
+							>
+								<CreateIcon />
+							</Fab>
+							<br />
+							<Fab
+								className={classes.drawBlue}
+								onClick={() => setDrawColor("blue")}
+							>
+								<CreateIcon />
+							</Fab>
+							<br />
+							<Fab
+								className={classes.drawOrange}
+								onClick={() => setDrawColor("orange")}
+							>
+								<CreateIcon />
+							</Fab>
+							<br />
+							<Fab
+								className={classes.deleteIconBtn}
+								onClick={() => setErase(true)}
+							>
+								<LayersClearIcon />
+							</Fab>
+							<br />
+						</Grid>
+						<Grid item xs={11}>
+							<canvas
+								ref={canvas}
+								id="myCanvas"
+								height={height}
+								width={width}
+								onMouseMove={drawCanvas}
+								onClick={drawCanvas}
+								onMouseDown={onMouseDown}
+								onMouseUp={onMouseUp}
+								className={classes.canvas}
+							></canvas>
+						</Grid>
+					</Grid>
 				</Grid>
-				<Grid item xs={11}>
-					<canvas
-						ref={canvas}
-						id="myCanvas"
-						height={height}
-						width={width}
-						onMouseMove={drawCanvas}
-						onClick={drawCanvas}
-						onMouseDown={onMouseDown}
-						onMouseUp={onMouseUp}
-						className={classes.canvas}
-					></canvas>
+				<Grid item xs={3}>
+					<Chatbox />
 				</Grid>
 			</Grid>
-			<img src={imgOut} alt="output" />
+			{imgOut && (
+				<div>
+					<img src={imgOut} height="500px" width="800px" alt="whiteboard" />{" "}
+					<br />
+					<div align="center">
+						<a href={imgOut} download="Lecture_Screenshot.png">
+							<Button color="primary" variant="contained">
+								{" "}
+								<SystemUpdateAltIcon style={{ marginRight: 20 }} /> Capture
+								Notes
+							</Button>
+						</a>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
