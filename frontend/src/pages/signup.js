@@ -81,11 +81,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //Login page for a vendor staff
-export default function LoginPage() {
+export default function Signup() {
 	const classes = useStyles();
 	const history = useHistory(); //Redirecting
 	const [showPassword, setShowPassword] = useState(0); //Toggle show password fieldd
-	const [remember, setRemember] = useState(false); //Remember me checkbox
+	const [student, setStudent] = useState(false); //student me checkbox
 
 	function togglePassword() {
 		showPassword === 0 ? setShowPassword(1) : setShowPassword(0);
@@ -102,7 +102,7 @@ export default function LoginPage() {
 			<div className={classes.root} align="left">
 				<Typography className={classes.headingBlack}>
 					{" "}
-					Login to your Account{" "}
+					Create your Account{" "}
 				</Typography>
 				<Formik
 					initialValues={{ email: "", password: "" }}
@@ -117,8 +117,17 @@ export default function LoginPage() {
 						} else if (values.email.length > 100) {
 							errors.email = "Maximum 100 charecters";
 						}
+						if (!values.name) {
+							errors.name = "Required";
+						}
 						if (!values.password) {
 							errors.password = "Required";
+						}
+						if (!values.phone) {
+							errors.phone = "Fill this field";
+						} else if (!/^[7-9][0-9]{9}$/i.test(values.phone)) {
+							//Number must be 10 digit with first digit starting from 7,8 or 9
+							errors.phone = "Invalid Number";
 						}
 						return errors;
 					}}
@@ -126,13 +135,16 @@ export default function LoginPage() {
 						console.log(values);
 						//Submit Function for login
 						let data = JSON.stringify({
+							name: values.name,
 							email: values.email,
+							isStudent: values.student,
+							phone: values.phone,
 							password: values.password,
 						});
 
 						let config = {
 							method: "post",
-							url: "/user/verify",
+							url: "/user/add",
 							headers: {
 								"Content-Type": "application/json",
 							},
@@ -141,19 +153,7 @@ export default function LoginPage() {
 
 						axios(config)
 							.then((response) => {
-								console.log(JSON.stringify(response.data));
-								if (response.data.userId) {
-									localStorage.setItem("isStudent", response.data.isStudent);
-									localStorage.setItem("name", response.data.name);
-									localStorage.setItem("email", response.data.email);
-									localStorage.setItem("userId", response.data.userId);
-									history.push("/dashboard");
-								} else {
-									setTimeout(() => {
-										setSubmitting(false);
-									}, 1000);
-									setShowWarning(true);
-								}
+								history.push("/login");
 							})
 							.catch(function (error) {
 								console.log(error);
@@ -196,7 +196,39 @@ export default function LoginPage() {
 								helperText={touched.email ? errors.email : ""}
 								error={!!errors.email && touched.email}
 								inputProps={{ autoComplete: "new-email" }}
-							/>{" "}
+							/>
+							<br />
+							<TextField
+								name="name"
+								label="Name"
+								type="text"
+								fullWidth
+								className={classes.textf}
+								value={values.name}
+								placeholder="Your Name"
+								onChange={handleChange}
+								onBlur={handleBlur}
+								helperText={touched.name ? errors.name : ""}
+								error={!!errors.name && touched.name}
+							/>
+							<br />
+							<TextField
+								name="phone"
+								value={values.phone}
+								label="Contact Number"
+								type="number"
+								fullWidth
+								onChange={handleChange}
+								onBlur={handleBlur}
+								className={classes.textf}
+								error={!!errors.phone && touched.phone}
+								helperText={touched.phone ? errors.phone : ""}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">+91</InputAdornment>
+									),
+								}}
+							/>
 							<br />
 							<TextField
 								name="password"
@@ -224,27 +256,23 @@ export default function LoginPage() {
 									),
 								}}
 							/>
-							<div align="right">
-								<Link to="/vendor/forgot" className={classes.forogtPassword}>
-									Forgot your Password?
-								</Link>
-							</div>
+							<br />
+							<br />
+							Are you a student?
+							<Checkbox
+								value={student}
+								color="primary"
+								onChange={() => setStudent(!student)}
+							/>
 							<br />
 							<div align="center">
-								Keep me logged in
-								<Checkbox
-									value={remember}
-									color="primary"
-									onChange={() => setRemember(!remember)}
-								/>
-								<br />
 								<Button
 									type="submit"
 									disabled={isSubmitting}
 									variant="outlined"
 									color="primary"
 								>
-									LOGIN
+									Register
 								</Button>
 							</div>
 						</Form>
@@ -264,8 +292,8 @@ export default function LoginPage() {
 			</Grid>
 			<div align="left" className={classes.orDiv}>
 				<Typography className={classes.headingBlack}>
-					<Link to="/signup" className={classes.linkText}>
-						Sign-up <ArrowForwardIcon className={classes.arrowIcon} />
+					<Link to="/login" className={classes.linkText}>
+						Log in <ArrowForwardIcon className={classes.arrowIcon} />
 					</Link>{" "}
 					<br />
 					<a

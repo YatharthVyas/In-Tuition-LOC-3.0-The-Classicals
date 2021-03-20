@@ -3,7 +3,9 @@ import Home from "../pages/home";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import Whiteboard from "../pages/whiteboard.js";
+import AddClassroom from "../pages/addClass.js";
 import Login from "../pages/login.js";
+import Signup from "../pages/signup.js";
 import VideoConf from "./VideoConf.js";
 import {
 	Route,
@@ -17,6 +19,7 @@ function ProtectedRoutes() {
 		<div>
 			<Route exact path="/video-conf" component={VideoConf} />
 			<Route exact path="/whiteboard" component={Whiteboard} />
+			<Route exact path="/class/add" component={AddClassroom} />
 		</div>
 	) : (
 		<Redirect to="/" />
@@ -34,6 +37,7 @@ function RootRouter() {
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route exact path="/login" component={Login} />
+						<Route exact path="/signup" component={Signup} />
 						<Route component={ProtectedRoutes} />
 					</Switch>
 				</div>
