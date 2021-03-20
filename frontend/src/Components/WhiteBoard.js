@@ -6,6 +6,8 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import LayersClearIcon from "@material-ui/icons/LayersClear";
 import CreateIcon from "@material-ui/icons/Create";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
 import { makeStyles } from "@material-ui/core/styles";
@@ -69,6 +71,8 @@ function Whiteboard(props) {
 	const width = 800;
 	const height = 500;
 	const classes = useStyles();
+	const [showWarning, setShowWarning] = useState(false);
+	const [attentionInput, setAttentionInput] = useState("");
 	const [painting, setPainting] = useState(false);
 	const [updateDrawing, setUpdateDrawing] = useState(true);
 	const [erase, setErase] = useState(false);
@@ -80,26 +84,31 @@ function Whiteboard(props) {
 	const canvas = useRef();
 
 	const checkAttention = () => {
-		let config = {
-			method: "get",
-			url: "http://localhost:8000/tutor/attentive/?checkStr=asda",
-			headers: {},
-		};
+		if (attentionInput.trim()) {
+			console.log(attentionInput);
+			let config = {
+				method: "get",
+				url: "/tutor/attentive/?checkStr=" + attentionInput,
+				headers: {},
+			};
 
-		axios(config)
-			.then((response) => {
-				console.log(JSON.stringify(response.data));
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+			axios(config)
+				.then((response) => {
+					console.log(JSON.stringify(response.data));
+					setShowWarning(true);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	};
 
 	const drawCanvas = (e) => {
 		if (painting) {
 			let mousepos = findMousePos(e);
 			if (erase) {
-				ctx.clearRect(mousepos.x - 10, mousepos.y - 10, 20, 20);
+				ctx.fillStyle = "#ededed";
+				ctx.fillRect(mousepos.x - 10, mousepos.y - 10, 20, 20);
 			} else {
 				ctx.beginPath();
 				ctx.moveTo(lastX, lastY);
@@ -177,6 +186,16 @@ function Whiteboard(props) {
 	}, []);
 	return (
 		<div className={classes.root}>
+			<Snackbar
+				open={showWarning}
+				autoHideDuration={2000}
+				onClose={() => setShowWarning(false)}
+				style={{ marginBottom: 80 }}
+			>
+				<Alert variant="filled" severity="success">
+					Attention Check Initiated!
+				</Alert>
+			</Snackbar>
 			<Grid container>
 				<Grid item xs={9}>
 					{localStorage.getItem("isStudent") === "true" ? (
@@ -268,26 +287,27 @@ function Whiteboard(props) {
 								</Grid>
 							</Grid>
 							<div align="center" style={{ marginTop: 20 }}>
-								{localStorage.getItem("isStudent") === "true" ? (
-									<Attentive />
-								) : (
-									<div>
-										<TextField label="Enter keyword"></TextField>
-										<Button
-											size="large"
-											color="primary"
-											variant="outlined"
-											onSubmit={checkAttention}
-											style={{ marginLeft: 20 }}
-										>
-											Attentiveness Check
-										</Button>
-									</div>
-								)}
+								<div>
+									<TextField
+										label="Enter keyword"
+										value={attentionInput}
+										onChange={(e) => setAttentionInput(e.target.value)}
+									></TextField>
+									<Button
+										size="large"
+										color="primary"
+										variant="outlined"
+										onClick={checkAttention}
+										style={{ marginLeft: 20 }}
+									>
+										Attentiveness Check
+									</Button>
+								</div>
 							</div>
 						</div>
 					)}
 				</Grid>
+				{localStorage.getItem("isStudent") === "true" && <Attentive />}
 				<Grid item xs={3}>
 					<Chatbox />
 				</Grid>

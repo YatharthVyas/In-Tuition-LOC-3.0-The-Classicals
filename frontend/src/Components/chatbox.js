@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import SendIcon from "@material-ui/icons/Send";
 import IconButton from "@material-ui/core/IconButton";
@@ -13,6 +13,7 @@ var Filter = require("bad-words"),
 	filter = new Filter();
 
 function ChatBox() {
+	const chatRef = useRef();
 	const [input, setInput] = useState("");
 	const [anonymous, setAnonymous] = useState(false);
 	const [showWarning, setShowWarning] = useState(false);
@@ -31,7 +32,7 @@ function ChatBox() {
 		// },
 	]);
 	useEffect(() => {
-		filter.addWords("saala", "kutta", "harami");
+		filter.addWords("saala", "kutta", "harami", "kamina");
 
 		setMessage([]);
 		const onChildAdded = firebase
@@ -42,6 +43,7 @@ function ChatBox() {
 				helperArr.push(snapshot.val());
 				setMessage((files) => [...files, ...helperArr]);
 				console.log(snapshot.val());
+				chatRef.current.scrollTop = chatRef.current.scrollHeight;
 			});
 		return () =>
 			firebase.database().ref("Chats").off("child_added", onChildAdded);
@@ -50,8 +52,6 @@ function ChatBox() {
 	const userId = localStorage.getItem("userId");
 	const sendDoubt = () => {
 		if (input.trim().length > 0 && filter.clean(input) === input) {
-			console.log(filter.clean(input) !== input);
-			console.log(input);
 			const uniqueKey = firebase.database().ref().push().key;
 			firebase.database().ref(`Chats/${uniqueKey}`).update({
 				userName: userName,
@@ -66,6 +66,9 @@ function ChatBox() {
 				setShowWarning(false);
 			}, 2000);
 		}
+		setTimeout(() => {
+			chatRef.current.scrollTop = chatRef.current.scrollHeight;
+		}, 1000);
 	};
 
 	return (
@@ -94,7 +97,7 @@ function ChatBox() {
 						<h2>Classroom Chat</h2>
 					</div>
 				</header>
-				<ul id="chat">
+				<ul id="chat" ref={chatRef}>
 					{messages.map((item, index) => {
 						return (
 							<li
