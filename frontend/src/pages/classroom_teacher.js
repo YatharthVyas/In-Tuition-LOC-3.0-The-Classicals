@@ -63,18 +63,17 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: "100%",
-  },
-  paperBorder: {
-    borderStyle: "solid",
-    borderRadius: "10px",
-    borderColor: theme.palette.primary.main,
-    borderWidth: "2px",
-    height: "120px",
-    padding: "20px",
-},
+	root: {
+		backgroundColor: theme.palette.background.paper,
+		width: "100%",
+	},
+	paperBorder: {
+		borderStyle: "solid",
+		borderRadius: "10px",
+		borderColor: theme.palette.primary.main,
+		borderWidth: "2px",
+		padding: "20px",
+	},
 }));
 
 export default function PersistentDrawerLeft() {
@@ -119,84 +118,44 @@ export default function PersistentDrawerLeft() {
   }, [searchTerm]);
   console.log(localStorage.getItem("isStudent"));
 
-  React.useEffect(() => {
-    axios
-      .get(
-        `https://virtualclassloc.herokuapp.com/tutor/mybatches/?tutorId=${localStorage.getItem(
-          "userId"
-        )}`
-      )
-      .then((response) => {
-        console.log(response.data);
-        var d = response.data;
-        for(var i = 0;i<d.length;i++)
-        {
-
-        }
-        setSubData(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-    })
-
-},[])
-    
-const [open, setOpen] = React.useState(false);
-const handleClickOpen = () => {
-   
- 
-    setOpen(true);  
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSendId = () => {
-      setOpen(false);
-      setTestOpen(1);
-  }
-
-
-
-  return (
-    <div  className={classes.root}>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab
-            style={{ paddingLeft: "30px" }}
-            label="Whiteboard"
-            {...a11yProps(0)}
-          />
-          <Tab label="Lecture" {...a11yProps(1)} />
-          <Tab label="Assignments" {...a11yProps(2)} />
-         
-        </Tabs>
-      </AppBar>
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-        
-      >
-        <TabPanel
-          style={{ marginTop: "20px" }}
-          value={value}
-          index={0}
-          dir={theme.direction}
-        >
-         <Paper className={classes.paperBorder} elevation={3}>
+	return (
+		<div className={classes.root}>
+			<AppBar position="static" color="default">
+				<Tabs
+					value={value}
+					onChange={handleChange}
+					indicatorColor="primary"
+					textColor="primary"
+					variant="fullWidth"
+					aria-label="full width tabs example"
+				>
+					<Tab
+						style={{ paddingLeft: "30px" }}
+						label="Whiteboard"
+						{...a11yProps(0)}
+					/>
+					<Tab label="Lecture" {...a11yProps(1)} />
+					<Tab label="Assignments" {...a11yProps(2)} />
+				</Tabs>
+			</AppBar>
+			<SwipeableViews
+				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+				index={value}
+				onChangeIndex={handleChangeIndex}
+			>
+				<TabPanel
+					style={{ marginTop: "20px" }}
+					value={value}
+					index={0}
+					dir={theme.direction}
+				>
+					<Paper className={classes.paperBorder} elevation={3}>
+						<div align="center">
+							<img src="/assets/images/whiteboard.png" width="1000" />
+						</div>
+						<br />
 						<Grid container spacing={2}>
-							<Grid item xs={9}>
-								<h2>VIEW WHITEBOARD</h2>
-							</Grid>
+							<Grid item xs={9}></Grid>
 							<Grid item xs={3}>
 								<a style={{ textDecoration: "none" }} href="/whiteboard">
 									<Button color="primary" variant="outlined">
