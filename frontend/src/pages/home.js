@@ -139,8 +139,7 @@ function Home(props) {
 										</div>
 										<h5 className="features-title">Modern Strategy</h5>
 										<p>
-											Customize anything in this template to fit your website
-											needs
+											Our platform provides you with modern tools to learn!
 										</p>
 									</div>
 								</div>
@@ -155,7 +154,7 @@ function Home(props) {
 											</i>
 										</div>
 										<h5 className="features-title">Best Relationship</h5>
-										<p>Contact us immediately if you have a question in mind</p>
+										<p>Contact us immediately if you have any technical issues</p>
 									</div>
 								</div>
 								<div
@@ -168,10 +167,9 @@ function Home(props) {
 												<img src="assets/images/featured-item-01.png" alt="" />
 											</i>
 										</div>
-										<h5 className="features-title">Ultimate Marketing</h5>
+										<h5 className="features-title">Smooth UI</h5>
 										<p>
-											You just need to tell your friends about our free
-											templates
+											Our Smooth UI helps you manage and learn better
 										</p>
 									</div>
 								</div>
@@ -200,15 +198,18 @@ function Home(props) {
 						<div className="col-lg-6 col-md-12 col-sm-12 align-self-center mobile-top-fix">
 							<div className="left-heading">
 								<h2 className="section-title">
-									Let’s discuss about you project
+									Our Unique Features
 								</h2>
 							</div>
 							<div className="left-text">
-								<p>
-									Nullam sit amet purus libero. Etiam ullamcorper nisl ut augue
-									blandit, at finibus leo efficitur. Nam gravida purus non
-									sapien auctor, ut aliquam magna ullamcorper.
-								</p>
+								<p>Whiteboard feature which syncs faster than MS teams</p>
+								<p>NLP based chatbot to solve students doubts when teachers are unavailable. This bot learns by reading books & articles</p>
+								<p>Whiteboard allows students to take screenshots of notes</p>
+								<p>Students can ask doubts anonymously without any fear of judgement</p>
+								<p>To ensure no one misuses chat, a NLP based profanity filter is used</p>
+								<p>Teachers can check and record students who fail an attentiveness check</p>
+								<p>On point scheduling of assignments & video lectures</p>
+								<p>Visualisation of Test Performance</p>
 							</div>
 						</div>
 					</div>
@@ -225,15 +226,12 @@ function Home(props) {
 						<div className="col-lg-6 col-md-12 col-sm-12 align-self-center mobile-bottom-fix">
 							<div className="left-heading">
 								<h2 className="section-title">
-									We can help you to grow your business
+									Student & Tutors 
 								</h2>
 							</div>
 							<div className="left-text">
 								<p>
-									Aenean pretium, ipsum et porttitor auctor, metus ipsum iaculis
-									nisi, a bibendum lectus libero vitae urna. Sed id leo eu dolor
-									luctus congue sed eget ipsum. Nunc nec luctus libero. Etiam
-									quis dolor elit.
+									A great Student Tutor environment facilitating both students and teachers to interact smoothly and carry out learning efficiently
 								</p>
 							</div>
 						</div>
@@ -259,8 +257,6 @@ function Home(props) {
 								<div className="info">
 									<h1>Work Process</h1>
 									<p>
-										Aenean nec tempor metus. Maecenas ligula dolor, commodo in
-										imperdiet interdum, vehicula ut ex. Donec ante diam.
 									</p>
 								</div>
 							</div>
@@ -271,8 +267,8 @@ function Home(props) {
 									<i>
 										<img src="assets/images/work-process-item-01.png" alt="" />
 									</i>
-									<strong>Get Ideas</strong>
-									<span>Godard pabst prism fam cliche.</span>
+									<strong>Search Batch</strong>
+									<span>Search for your desired subject and enroll to the batch</span>
 								</a>
 							</div>
 							<div className="col-lg-2 col-md-3 col-sm-6 col-6">
@@ -280,8 +276,8 @@ function Home(props) {
 									<i>
 										<img src="assets/images/work-process-item-01.png" alt="" />
 									</i>
-									<strong>Sketch Up</strong>
-									<span>Godard pabst prism fam cliche.</span>
+									<strong>Ask Doubts</strong>
+									<span>Doubts can be asked to our Tutor Bot,P.S he's 24/7 available</span>
 								</a>
 							</div>
 							<div className="col-lg-2 col-md-3 col-sm-6 col-6">
@@ -290,7 +286,7 @@ function Home(props) {
 										<img src="assets/images/work-process-item-01.png" alt="" />
 									</i>
 									<strong>Discuss</strong>
-									<span>Godard pabst prism fam cliche.</span>
+									<span>In Classroom Chat feature to ask doubts and discuss with teacher.</span>
 								</a>
 							</div>
 							<div className="col-lg-2 col-md-3 col-sm-6 col-6">
@@ -298,8 +294,8 @@ function Home(props) {
 									<i>
 										<img src="assets/images/work-process-item-01.png" alt="" />
 									</i>
-									<strong>Revise</strong>
-									<span>Godard pabst prism fam cliche.</span>
+									<strong>Assignments</strong>
+									<span>Get scheduled assignments and submit it before time  </span>
 								</a>
 							</div>
 							<div className="col-lg-2 col-md-3 col-sm-6 col-6">
@@ -307,8 +303,8 @@ function Home(props) {
 									<i>
 										<img src="assets/images/work-process-item-01.png" alt="" />
 									</i>
-									<strong>Approve</strong>
-									<span>Godard pabst prism fam cliche.</span>
+									<strong>Video Lectures</strong>
+									<span>Join pre scheduled video lectures in your batch.</span>
 								</a>
 							</div>
 							<div className="col-lg-2 col-md-3 col-sm-6 col-6">
@@ -316,8 +312,8 @@ function Home(props) {
 									<i>
 										<img src="assets/images/work-process-item-01.png" alt="" />
 									</i>
-									<strong>Launch</strong>
-									<span>Godard pabst prism fam cliche.</span>
+									<strong>Tests & Analysis</strong>
+									<span>Take Tests and Analyse your performances better.</span>
 								</a>
 							</div>
 						</div>
@@ -329,15 +325,13 @@ function Home(props) {
 					<div className="row">
 						<div className="col-lg-12">
 							<div className="center-heading">
-								<h2 className="section-title">What do they say?</h2>
+								<h2 className="section-title">Meet our Team</h2>
 							</div>
 						</div>
 						<div className="offset-lg-3 col-lg-6">
 							<div className="center-text">
 								<p>
-									Donec tempus, sem non rutrum imperdiet, lectus orci fringilla
-									nulla, at accumsan elit eros a turpis. Ut sagittis lectus
-									libero.
+									
 								</p>
 							</div>
 						</div>
@@ -351,15 +345,14 @@ function Home(props) {
 										<img src="assets/images/testimonial-icon.png" alt="" />
 									</i>
 									<p>
-										Proin a neque nisi. Nam ipsum nisi, venenatis ut nulla quis,
-										egestas scelerisque orci. Maecenas a finibus odio.
+										Experienced Backend developer with little bit of Front End knowledge
 									</p>
 									<div className="user-image">
 										<img src="http://placehold.it/60x60" alt="" />
 									</div>
 									<div className="team-info">
-										<h3 className="user-name">Catherine Soft</h3>
-										<span>Managing Director</span>
+										<h3 className="user-name">Tejas Ghone</h3>
+										<span>Backend Developer</span>
 									</div>
 								</div>
 							</div>
@@ -371,16 +364,14 @@ function Home(props) {
 										<img src="assets/images/testimonial-icon.png" alt="" />
 									</i>
 									<p>
-										Integer molestie aliquam gravida. Nullam nec arcu finibus,
-										imperdiet nulla vitae, placerat nibh. Cras maximus venenatis
-										molestie.
+										Experienced Backend developer with little bit of Front End knowledge
 									</p>
 									<div className="user-image">
 										<img src="http://placehold.it/60x60" alt="" />
 									</div>
 									<div className="team-info">
-										<h3 className="user-name">Kelvin Wood</h3>
-										<span>Digital Marketer</span>
+										<h3 className="user-name">Vatsal Soni</h3>
+										<span>Backend Developer</span>
 									</div>
 								</div>
 							</div>
@@ -392,15 +383,32 @@ function Home(props) {
 										<img src="assets/images/testimonial-icon.png" alt="" />
 									</i>
 									<p>
-										Quisque diam odio, maximus ac consectetur eu, auctor non
-										lorem. Cras quis est non ante ultrices molestie. Ut vehicula
-										et diam at aliquam.
+										Experienced Front End developer with expertise in UI/UX
 									</p>
 									<div className="user-image">
 										<img src="http://placehold.it/60x60" alt="" />
 									</div>
 									<div className="team-info">
-										<h3 className="user-name">David Martin</h3>
+										<h3 className="user-name">Siddharth Salvi</h3>
+										<span>Front End Developer</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className="col-lg-4 col-md-6 col-sm-12">
+							<div className="team-item">
+								<div className="team-content">
+									<i>
+										<img src="assets/images/testimonial-icon.png" alt="" />
+									</i>
+									<p>
+										A third year CS student at DJSCE . Passionate about tech and a front end expert
+									</p>
+									<div className="user-image">
+										<img src="http://placehold.it/60x60" alt="" />
+									</div>
+									<div className="team-info">
+										<h3 className="user-name">Yatharth Vyas</h3>
 										<span>Website Manager</span>
 									</div>
 								</div>
@@ -453,9 +461,7 @@ function Home(props) {
 						<div className="offset-lg-3 col-lg-6">
 							<div className="center-text">
 								<p>
-									Integer molestie aliquam gravida. Nullam nec arcu finibus,
-									imperdiet nulla vitae, placerat nibh. Cras maximus venenatis
-									molestie.
+									Ask your doubts on Global blog in your classroom
 								</p>
 							</div>
 						</div>
@@ -469,12 +475,10 @@ function Home(props) {
 								</div>
 								<div className="blog-content">
 									<h3>
-										<a href="#">Vivamus ac vehicula dui</a>
+										<a href="#">Artificial NN Blog</a>
 									</h3>
 									<div className="text">
-										Cras aliquet ligula dui, vitae fermentum velit tincidunt id.
-										Praesent eu finibus nunc. Nulla in sagittis eros. Aliquam
-										egestas augue.
+									Artificial neural networks (ANNs), usually simply called neural networks (NNs), are computing systems vaguely inspired by the biological neural networks that constitute animal brains.[1]
 									</div>
 									<a href="#" className="main-button">
 										Read More
@@ -489,12 +493,10 @@ function Home(props) {
 								</div>
 								<div className="blog-content">
 									<h3>
-										<a href="#">Phasellus convallis augue</a>
+										<a href="#">Web Sockets Blog</a>
 									</h3>
 									<div className="text">
-										Aliquam commodo ornare nisl, et scelerisque nisl dignissim
-										ac. Vestibulum finibus urna ut velit venenatis, vel ultrices
-										sapien mattis.
+									WebSocket is a computer communications protocol, providing full-duplex communication channels over a single TCP connection. The WebSocket protocol was standardized by the IETF as RFC 6455 in 2011, and the WebSocket API in Web IDL is being standardiz
 									</div>
 									<a href="#" className="main-button">
 										Read More
@@ -509,12 +511,10 @@ function Home(props) {
 								</div>
 								<div className="blog-content">
 									<h3>
-										<a href="#">Nam gravida purus non</a>
+										<a href="#">Machine Learning</a>
 									</h3>
 									<div className="text">
-										Maecenas eu erat vitae dui convallis consequat vel gravida
-										nulla. Vestibulum finibus euismod odio, ut tempus enim
-										varius eu.
+									Machine learning (ML) is the study of computer algorithms that improve automatically through experience and by the use of data.[1] It is seen as a part of artificial intelligence.
 									</div>
 									<a href="#" className="main-button">
 										Read More
