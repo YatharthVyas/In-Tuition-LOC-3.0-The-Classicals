@@ -10,6 +10,7 @@ import "firebase/database";
 import { scheduleAssignment, getAssignment } from "./helper";
 import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
+import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
 	container: {
 		display: "block",
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Assignment() {
 	const params = useParams();
+	const history = useHistory();
 	console.log(params.cid);
 
 	const classes = useStyles();
@@ -191,7 +193,16 @@ export default function Assignment() {
 							<Paper className={classes.paperBorder} elevation={3}>
 								<Grid container spacing={2}>
 									<Grid item xs={9}>
-										<h2>{assignment.name.toUpperCase()}</h2>
+										<h2
+											onClick={() =>
+												history.push(
+													`/assignment/${params.cid}/${assignment.assignId}`
+												)
+											}
+											style={{ cursor: "pointer" }}
+										>
+											{assignment.name.toUpperCase()}
+										</h2>
 									</Grid>
 									<Grid item xs={3}>
 										<Button color="primary" variant="outlined">
