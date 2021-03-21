@@ -35,3 +35,22 @@ export const getAssignment = async (batchId) => {
     console.log(error);
   }
 };
+
+export const sendResponse = async (response) => {
+  try {
+    let submittedResponse = await fetch(
+      `https://virtualclassloc.herokuapp.com/student/response`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(response),
+      }
+    );
+    console.log(submittedResponse);
+  } catch (error) {
+    console.log(error);
+  }
+};
