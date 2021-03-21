@@ -11,175 +11,177 @@ import { scheduleAssignment, getAssignment } from "./helper";
 import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 const useStyles = makeStyles((theme) => ({
-	container: {
-		display: "flex",
-		flexWrap: "wrap",
-	},
-	textField: {
-		marginLeft: theme.spacing(1),
-		marginRight: theme.spacing(1),
-		width: 200,
-	},
-	paperBorder: {
-		borderStyle: "solid",
-		borderRadius: "10px",
-		borderColor: theme.palette.primary.main,
-		borderWidth: "2px",
-		height: "120px",
-		padding: "20px",
-	},
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+  paperBorder: {
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: theme.palette.primary.main,
+    borderWidth: "2px",
+    height: "120px",
+    padding: "20px",
+  },
 }));
 
 export default function Assignment() {
-	const params = useParams();
-	console.log(params.cid);
+  const params = useParams();
+  console.log(params.cid);
 
-	const classes = useStyles();
-	const [name, setName] = useState("");
-	const [dateTime, setDateTime] = useState(new Date().toISOString());
-	const [pathFire, setPathFire] = useState("");
-	const [image, setImage] = useState(null);
-	const [assignments, setAssignments] = useState([]);
+  const classes = useStyles();
+  const [name, setName] = useState("");
+  const [dateTime, setDateTime] = useState(new Date().toISOString());
+  const [pathFire, setPathFire] = useState("");
+  const [image, setImage] = useState(null);
+  const [assignments, setAssignments] = useState([]);
 
-	const uploadToFirebaseStorage = async (e) => {
-		const file = e.target.files[0];
-		const id = uuid();
-		const storageRef = firebase.storage().ref("Assignments").child(id);
-		await storageRef.put(file);
-		storageRef.getDownloadURL().then((url) => {
-			// imageRef.set(url);
-			onSubmit(url);
-			// setPathFire(url);
-		});
-	};
-	useEffect(() => {
-		// console.log(image);
-		console.log(dateTime);
-		getAssignment(params.cid).then((res) => {
-			console.log(res);
-			setAssignments(res);
-		});
-	}, []);
-	const onSubmit = (url) => {
-		console.log("IN");
-		// if (proceed) {
-		console.log(dateTime);
-		// uploadToFirebaseStorage();
+  const uploadToFirebaseStorage = async (e) => {
+    const file = e.target.files[0];
+    const id = uuid();
+    const storageRef = firebase.storage().ref("Assignments").child(id);
+    await storageRef.put(file);
+    storageRef.getDownloadURL().then((url) => {
+      // imageRef.set(url);
+      onSubmit(url);
+      // setPathFire(url);
+    });
+  };
+  useEffect(() => {
+    // console.log(image);
+    console.log(dateTime);
+    getAssignment(params.cid).then((res) => {
+      console.log(res);
+      setAssignments(res);
+    });
+  }, []);
+  const onSubmit = (url) => {
+    console.log(url);
+    // if (proceed) {
+    console.log(dateTime);
+    // uploadToFirebaseStorage();
 
-		let a = new Date(dateTime).toISOString();
-		console.log(a);
-		let utcDate = a.substring(0, 10);
-		let utcTime = a.substring(11, 16);
-		console.log(utcDate);
-		console.log(utcTime);
-		let b = dateTime.toString();
-		let istDateTime = b.substring(0, 21);
-		var dt = istDateTime.split("T");
-		console.log(istDateTime);
-		let assignment = {};
-		let batchId = "6055f18d109fae0004b682d0";
-		assignment.batchId = batchId;
-		assignment.name = name;
-		assignment.date = dt[0];
-		assignment.time = dt[1];
-		assignment.istDateTime = istDateTime;
-		assignment.path = url;
-		// assignment.fileName = res.name;
-		// assignment.filePathLocal = res.uri;
-		console.log("ASSIGN", assignment);
-		scheduleAssignment(assignment).then(() => {
-			// navigation.goBack();
-			console.log("SUCCESS");
-		});
-	};
+    let a = new Date(dateTime).toISOString();
+    console.log(a);
+    let utcDate = a.substring(0, 10);
+    let utcTime = a.substring(11, 16);
+    console.log(utcDate);
+    console.log(utcTime);
+    let b = dateTime.toString();
+    let istDateTime = b.substring(0, 21);
+    var dt = istDateTime.split("T");
+    console.log(istDateTime);
+    let assignment = {};
+    // let batchId = "6055f18d109fae0004b682d0";
+    assignment.batchId = params.cid;
+    assignment.name = name;
+    assignment.date = utcDate;
+    assignment.time = utcTime;
+    assignment.istDateTime = istDateTime;
+    assignment.path = url;
+    // assignment.fileName = res.name;
+    // assignment.filePathLocal = res.uri;
+    console.log("ASSIGN", assignment);
+    scheduleAssignment(assignment).then(() => {
+      // navigation.goBack();
+      console.log("SUCCESS");
+    });
+  };
 
-	return (
-		<div>
-			{localStorage.getItem("isStudent") == "false" ? (
-				<form className={classes.container} noValidate>
-					<TextField
-						required
-						id="standard-required"
-						label="Required"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
-					<TextField
-						id="datetime-local"
-						label="Next appointment"
-						type="datetime-local"
-						// defaultValue="2017-05-24T10:30"
-						value={dateTime}
-						onChange={(e) => {
-							setDateTime(e.target.value);
-						}}
-						className={classes.textField}
-						InputLabelProps={{
-							shrink: true,
-						}}
-					/>
-					{/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
-					<input type="file" onChange={uploadToFirebaseStorage} />
-					{/* Keep this submit button as dummy */}
-					<button onClick={() => onSubmit()}>Upload</button>
-				</form>
-			) : (
-				<form
-					style={{ visibility: "hidden" }}
-					className={classes.container}
-					noValidate
-				>
-					<TextField
-						required
-						id="standard-required"
-						label="Required"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
-					<TextField
-						id="datetime-local"
-						label="Next appointment"
-						type="datetime-local"
-						// defaultValue="2017-05-24T10:30"
-						value={dateTime}
-						onChange={(e) => {
-							setDateTime(e.target.value);
-						}}
-						className={classes.textField}
-						InputLabelProps={{
-							shrink: true,
-						}}
-					/>
-					{/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
-					<input type="file" onChange={uploadToFirebaseStorage} />
-					{/* Keep this submit button as dummy */}
-					<button onClick={() => onSubmit()}>Upload</button>
-					<br />
-				</form>
-			)}
-			<h1>SCHEDULED ASSIGNMENTS</h1> <br />
-			{assignments &&
-				assignments.map((assignment, index) => {
-					return (
-						<div key={index}>
-							{console.log(assignment)}
-							<Paper className={classes.paperBorder} elevation={3}>
-								<Grid container spacing={2}>
-									<Grid item xs={9}>
-										<h2>{assignment.name.toUpperCase()}</h2>
-									</Grid>
-									<Grid item xs={3}>
-										<Button color="primary" variant="outlined">
-											ASSIGNED DATE: <br />
-											{assignment.istDateTime.split("T")[0]}
-										</Button>
-									</Grid>
-								</Grid>
-							</Paper>
-							<br />
-						</div>
-					);
-				})}
-		</div>
-	);
+  return (
+    <div>
+      {localStorage.getItem("isStudent") == "false" ? (
+        <form className={classes.container} noValidate>
+          <TextField
+            required
+            id="standard-required"
+            label="Required"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <TextField
+            id="datetime-local"
+            label="Next appointment"
+            type="datetime-local"
+            // defaultValue="2017-05-24T10:30"
+            value={dateTime}
+            onChange={(e) => {
+              setDateTime(e.target.value);
+            }}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          {/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
+          <input type="file" onChange={uploadToFirebaseStorage} />
+          {/* Keep this submit button as dummy */}
+          <button onClick={() => onSubmit()}>Upload</button>
+        </form>
+      ) : (
+        <form
+          style={{ visibility: "hidden" }}
+          className={classes.container}
+          noValidate
+        >
+          <TextField
+            required
+            id="standard-required"
+            label="Required"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <TextField
+            id="datetime-local"
+            label="Next appointment"
+            type="datetime-local"
+            // defaultValue="2017-05-24T10:30"
+            value={dateTime}
+            onChange={(e) => {
+              setDateTime(e.target.value);
+            }}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          {/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
+          <input type="file" onChange={uploadToFirebaseStorage} />
+          {/* Keep this submit button as dummy */}
+          <button onClick={() => onSubmit()}>Upload</button>
+          <br />
+        </form>
+      )}
+      <h1>SCHEDULED ASSIGNMENTS</h1> <br />
+      {assignments &&
+        assignments.map((assignment, index) => {
+          return (
+            <div key={index}>
+              {console.log(assignment)}
+              <Paper className={classes.paperBorder} elevation={3}>
+                <Grid container spacing={2}>
+                  <Grid item xs={9}>
+                    <h2>{assignment.name.toUpperCase()}</h2>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Button color="primary" variant="outlined">
+                      ASSIGNED DATE: <br />
+                      {assignment.istDateTime.split("T")[0]}
+                      <br />
+                      {assignment.istDateTime.split("T")[1]}
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Paper>
+              <br />
+            </div>
+          );
+        })}
+    </div>
+  );
 }
