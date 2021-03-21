@@ -58,7 +58,7 @@ function Navbar() {
 	  if(localStorage.getItem("isStudent") === "true")
 	  arr = [{nameVal:"My Batches",direct:"/dashboard"},{nameVal:"Search Batches",direct:"/search"},{nameVal:"Assignments",direct:"/dashboard"},{nameVal:"Doubts",direct:"/dashboard"}]
 	  else
-	  arr = [{nameVal:"My Batches",direct:"/dashboard"},{nameVal:"Calendar",direct:"/dashboard"},{nameVal:"Doubts",direct:"/dashboard"}]
+	  arr = [{nameVal:"My Batches",direct:"/dashboard"},{nameVal:"Create Batch",direct:"/class/add"},{nameVal:"Doubts",direct:"/dashboard"}]
 	  
 	  const toggleDrawer = (anchor, open) => (event) => {
 		if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

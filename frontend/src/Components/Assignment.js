@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import firebase from "../Components/firebase";
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import "firebase/storage";
 import "firebase/database";
 import { scheduleAssignment, getAssignment } from "./helper";
@@ -63,13 +66,14 @@ export default function Assignment() {
     console.log(utcTime);
     let b = dateTime.toString();
     let istDateTime = b.substring(0, 21);
+    var dt = (istDateTime.split("T"));
     console.log(istDateTime);
     let assignment = {};
     let batchId = "6055f18d109fae0004b682d0";
     assignment.batchId = batchId;
     assignment.name = name;
-    assignment.date = utcDate;
-    assignment.time = utcTime;
+    assignment.date = dt[0];
+    assignment.time = dt[1];
     assignment.istDateTime = istDateTime;
     assignment.path = pathFire;
     // assignment.fileName = res.name;
@@ -83,39 +87,81 @@ export default function Assignment() {
 
   return (
     <div>
-      <form className={classes.container} noValidate>
-        <TextField
-          required
-          id="standard-required"
-          label="Required"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <TextField
-          id="datetime-local"
-          label="Next appointment"
-          type="datetime-local"
-          // defaultValue="2017-05-24T10:30"
-          value={dateTime}
-          onChange={(e) => {
-            setDateTime(e.target.value);
-          }}
-          className={classes.textField}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        {/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
-        <input type="file" onChange={uploadToFirebaseStorage} />
-        {/* Keep this submit button as dummy */}
-        <button onClick={() => onSubmit()}>Upload</button>
-      </form>
+       {localStorage.getItem("isStudent") == "false" ? 
+       <form  className={classes.container} noValidate>
+       <TextField
+         required
+         id="standard-required"
+         label="Required"
+         value={name}
+         onChange={(e) => setName(e.target.value)}
+       />
+       <TextField
+         id="datetime-local"
+         label="Next appointment"
+         type="datetime-local"
+         // defaultValue="2017-05-24T10:30"
+         value={dateTime}
+         onChange={(e) => {
+           setDateTime(e.target.value);
+         }}
+         className={classes.textField}
+         InputLabelProps={{
+           shrink: true,
+         }}
+       />
+       {/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
+       <input type="file" onChange={uploadToFirebaseStorage} />
+       {/* Keep this submit button as dummy */}
+       <button onClick={() => onSubmit()}>Upload</button>
+     </form>
+       :
+       <form style = {{visibility:"hidden"}} className={classes.container} noValidate>
+     <TextField
+       required
+       id="standard-required"
+       label="Required"
+       value={name}
+       onChange={(e) => setName(e.target.value)}
+     />
+     <TextField
+       id="datetime-local"
+       label="Next appointment"
+       type="datetime-local"
+       // defaultValue="2017-05-24T10:30"
+       value={dateTime}
+       onChange={(e) => {
+         setDateTime(e.target.value);
+       }}
+       className={classes.textField}
+       InputLabelProps={{
+         shrink: true,
+       }}
+     />
+     {/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
+     <input type="file" onChange={uploadToFirebaseStorage} />
+     {/* Keep this submit button as dummy */}
+     <button onClick={() => onSubmit()}>Upload</button>
+   </form>
+       }
+     <br />
+    <h1>SCHEDULED ASSIGNMENTS</h1> <br />
+    
       {assignments &&
         assignments.map((assignment, index) => {
           return (
             <div key={index}>
               {console.log(assignment)}
-              <h1>{assignment.name}</h1>
+              <Paper  style = {{borderStyle:"solid",borderRadius:"10px",borderColor:"#f7d80a",borderWidth:"2px",height:"120px",padding:"20px"}} elevation = {3}>
+     <Grid container spacing = {2}>
+       <Grid item xs = {9}>
+       <h2>{assignment.name.toUpperCase()}</h2>
+       </Grid>
+       <Grid item xs = {3}>
+       <Button color="primary" variant = "outlined">ASSIGNED DATE: <br />{assignment.istDateTime.split("T")[0]}</Button>
+       </Grid>
+     </Grid>
+    </Paper><br />
             </div>
           );
         })}

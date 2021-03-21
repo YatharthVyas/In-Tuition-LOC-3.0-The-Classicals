@@ -20,6 +20,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import Lecture from "./lectures";
 import Assignment from "../Components/Assignment";
 import { useHistory } from 'react-router-dom';
 
@@ -119,6 +120,11 @@ export default function PersistentDrawerLeft() {
       )
       .then((response) => {
         console.log(response.data);
+        var d = response.data;
+        for(var i = 0;i<d.length;i++)
+        {
+
+        }
         setSubData(response.data);
       })
       .catch((err) => {
@@ -146,7 +152,7 @@ const handleClickOpen = () => {
 
 
   return (
-    <div className={classes.root}>
+    <div  className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -163,14 +169,14 @@ const handleClickOpen = () => {
           />
           <Tab label="Lecture" {...a11yProps(1)} />
           <Tab label="Assignments" {...a11yProps(2)} />
-          <Tab label="Tests" {...a11yProps(2)} />
+         
         </Tabs>
       </AppBar>
       <SwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
         onChangeIndex={handleChangeIndex}
-       
+        
       >
         <TabPanel
           style={{ marginTop: "20px" }}
@@ -178,7 +184,7 @@ const handleClickOpen = () => {
           index={0}
           dir={theme.direction}
         >
-           <Paper  style = {{borderStyle:"solid",borderRadius:"10px",borderColor:"#f7d80a",borderWidth:"2px",height:"120px",padding:"20px"}} elevation = {3}>
+          <Paper  style = {{borderStyle:"solid",borderRadius:"10px",borderColor:"#f7d80a",borderWidth:"2px",height:"120px",padding:"20px"}} elevation = {3}>
      <Grid container spacing = {2}>
        <Grid item xs = {9}>
        <h2>VIEW WHITEBOARD</h2>
@@ -195,7 +201,7 @@ const handleClickOpen = () => {
           index={1}
           dir={theme.direction}
         >
-          Lecture
+          <Lecture />
         </TabPanel>
         {/* <TabPanel
           style={{ marginTop: "20px" }}
@@ -212,65 +218,11 @@ const handleClickOpen = () => {
           index={2}
           dir={theme.direction}
         >
-          <Paper style = {{paddingLeft:"20px",paddingRight:"20px"}} elevation = {3}>
-          <Assignment /></Paper>
+          <strong>SCHEDULE AN ASSIGNMENT</strong>
+          <Assignment />
+          <br /><br />
         </TabPanel>
-        <TabPanel
-          style={{ marginTop: "20px" }}
-          value={value}
-          index={3}
-          dir={theme.direction}
-        >
-        {testOpen == 1 ?
-    <div>
-        <h1>SUBJECT MCQS</h1>
-        <MCQ />
-    </div>    
-    :
-    <div>
-    <Paper  style = {{borderStyle:"solid",borderRadius:"10px",borderColor:"#f7d80a",borderWidth:"2px",height:"120px",padding:"20px"}} elevation = {3}>
-     <Grid container spacing = {2}>
-       <Grid item xs = {9}>
-       <h2>  SUBJECT NAME TEST 1</h2>
-       </Grid>
-       <Grid item xs = {3}>
-       <Button onClick = {handleClickOpen} color="primary" variant = "outlined">ATTEMPT TEST</Button>
-       </Grid>
-     </Grid>
-    </Paper> <br />
-    <Paper  style = {{borderStyle:"solid",borderRadius:"10px",borderColor:"#f7d80a",borderWidth:"2px",height:"120px",padding:"20px"}} elevation = {3}>
-     <Grid container spacing = {2}>
-       <Grid item xs = {9}>
-       <h2>  SUBJECT NAME TEST 2</h2>
-       </Grid>
-       <Grid item xs = {3}>
-       <Button onClick = {handleClickOpen} color="primary" variant = "outlined">ATTEMPT TEST</Button>
-       </Grid>
-     </Grid>
-    </Paper> <br />
-    <Paper  style = {{borderStyle:"solid",borderRadius:"10px",borderColor:"#f7d80a",borderWidth:"2px",height:"120px",padding:"20px"}} elevation = {3}>
-     <Grid container spacing = {2}>
-       <Grid item xs = {9}>
-       <h2>  SUBJECT NAME TEST 3</h2>
-       </Grid>
-       <Grid item xs = {3}>
-       <Button onClick = {handleClickOpen} color="primary" variant = "outlined">ATTEMPT TEST</Button>
-       </Grid>
-     </Grid>
-    </Paper> <br />
-    <Paper  style = {{borderStyle:"solid",borderRadius:"10px",borderColor:"#f7d80a",borderWidth:"2px",height:"120px",padding:"20px"}} elevation = {3}>
-     <Grid container spacing = {2}>
-       <Grid item xs = {9}>
-       <h2>  SUBJECT NAME TEST 4</h2>
-       </Grid>
-       <Grid item xs = {3}>
-       <Button onClick = {handleClickOpen} color="primary" variant = "outlined">ATTEMPT TEST</Button>
-       </Grid>
-     </Grid>
-    </Paper>
-    </div>
-    }
-        </TabPanel>
+        
       </SwipeableViews>
       <Dialog
         open={open}
