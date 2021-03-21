@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 		height: 30,
 		paddingTop: 3,
 		marginBottom: -8,
-		color: "#F4C430",
+		color: "#4a148c",
 	},
 	textf: {
 		marginTop: 20,

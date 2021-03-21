@@ -5,19 +5,19 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from "@material-ui/icons/Menu";
 import { useHistory } from "react-router-dom";
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import Button from "@material-ui/core/Button";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
 const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
@@ -35,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	list: {
 		width: 250,
-	  },
-	  fullList: {
-		width: 'auto',
-	  },
+	},
+	fullList: {
+		width: "auto",
+	},
 	info: {
 		marginTop: 2,
 	},
@@ -50,44 +50,58 @@ function Navbar() {
 	const { currentTheme, setTheme } = useContext(CustomThemeContext);
 	const [state, setState] = React.useState({
 		top: false,
-	
-	  });
+	});
 
-	  var arr = [];
+	var arr = [];
 
-	  if(localStorage.getItem("isStudent") === "true")
-	  arr = [{nameVal:"My Batches",direct:"/dashboard"},{nameVal:"Search Batches",direct:"/search"},{nameVal:"Assignments",direct:"/dashboard"},{nameVal:"Doubts",direct:"/dashboard"}]
-	  else
-	  arr = [{nameVal:"My Batches",direct:"/dashboard"},{nameVal:"Calendar",direct:"/dashboard"},{nameVal:"Doubts",direct:"/dashboard"}]
-	  
-	  const toggleDrawer = (anchor, open) => (event) => {
-		if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-		  return;
+	if (localStorage.getItem("isStudent") === "true")
+		arr = [
+			{ nameVal: "My Batches", direct: "/dashboard" },
+			{ nameVal: "Search Batches", direct: "/search" },
+			{ nameVal: "Assignments", direct: "/dashboard" },
+			{ nameVal: "Doubts", direct: "/dashboard" },
+		];
+	else
+		arr = [
+			{ nameVal: "My Batches", direct: "/dashboard" },
+			{ nameVal: "Calendar", direct: "/dashboard" },
+			{ nameVal: "Doubts", direct: "/dashboard" },
+		];
+
+	const toggleDrawer = (anchor, open) => (event) => {
+		if (
+			event.type === "keydown" &&
+			(event.key === "Tab" || event.key === "Shift")
+		) {
+			return;
 		}
-	
+
 		setState({ ...state, [anchor]: open });
-	  };
-	
-	  const list = (anchor) => (
+	};
+
+	const list = (anchor) => (
 		<div
-		  className={clsx(classes.list, {
-			[classes.fullList]: anchor === 'top' || anchor === 'bottom',
-		  })}
-		  role="presentation"
-		  onClick={toggleDrawer(anchor, false)}
-		  onKeyDown={toggleDrawer(anchor, false)}
+			className={clsx(classes.list, {
+				[classes.fullList]: anchor === "top" || anchor === "bottom",
+			})}
+			role="presentation"
+			onClick={toggleDrawer(anchor, false)}
+			onKeyDown={toggleDrawer(anchor, false)}
 		>
-		  <List>
-			{arr.map((text, index) => (
-			  <a style = {{textDecoration:"none"}} href = {text.direct} ><ListItem button key={text.nameVal}>
-				<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-				<ListItemText primary={text.nameVal} />
-			  </ListItem></a>
-			))}
-		  </List>
-		 
+			<List>
+				{arr.map((text, index) => (
+					<a style={{ textDecoration: "none" }} href={text.direct}>
+						<ListItem button key={text.nameVal}>
+							<ListItemIcon>
+								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+							</ListItemIcon>
+							<ListItemText primary={text.nameVal} />
+						</ListItem>
+					</a>
+				))}
+			</List>
 		</div>
-	  );
+	);
 	const handleThemeChange = (event) => {
 		if (currentTheme === "normal") {
 			setTheme("dark");
@@ -114,14 +128,18 @@ function Navbar() {
 			>
 				<Toolbar>
 					<div className={classes.titleBar}>
-					<MenuIcon color = "primary"  style = {{marginRight:"10px",cursor:"pointer"}} onClick={toggleDrawer("left", true)} />
+						<MenuIcon
+							color="primary"
+							style={{ marginRight: "10px", cursor: "pointer" }}
+							onClick={toggleDrawer("left", true)}
+						/>
 						<Typography
 							color="primary"
 							component="span"
 							onClick={() => history.push("/")}
 							className={classes.title}
 						>
-							LOC Project
+							e-Learn Pro
 						</Typography>
 					</div>
 
@@ -139,11 +157,14 @@ function Navbar() {
 				</Toolbar>
 			</AppBar>
 			<React.Fragment key={"left"}>
-          
-          <Drawer anchor={"left"} open={state["left"]} onClose={toggleDrawer("left", false)}>
-            {list("left")}
-          </Drawer>
-        </React.Fragment>
+				<Drawer
+					anchor={"left"}
+					open={state["left"]}
+					onClose={toggleDrawer("left", false)}
+				>
+					{list("left")}
+				</Drawer>
+			</React.Fragment>
 		</div>
 	);
 }
