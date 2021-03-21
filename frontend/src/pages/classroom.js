@@ -10,6 +10,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import MCQ from "./mcq";
+import Lecture from "./lectures";
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -195,7 +196,7 @@ const handleClickOpen = () => {
           index={1}
           dir={theme.direction}
         >
-          Lecture
+         <Lecture />
         </TabPanel>
         {/* <TabPanel
           style={{ marginTop: "20px" }}

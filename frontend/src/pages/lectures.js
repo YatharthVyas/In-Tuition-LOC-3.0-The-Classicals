@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import { useParams } from "react-router-dom";
 const axios = require('axios');
 const useStyles = makeStyles((theme) => ({
@@ -143,7 +145,16 @@ export default function Lectures() {
      
    </form>
        }
-     
+      <Paper  style = {{borderStyle:"solid",borderRadius:"10px",borderColor:"#f7d80a",borderWidth:"2px",height:"120px",padding:"20px"}} elevation = {3}>
+     <Grid container spacing = {2}>
+       <Grid item xs = {9}>
+       <h2>SUBJECT LECTURE 1</h2>
+       </Grid>
+       <Grid item xs = {3}>
+       <Button color="primary" variant = "outlined">JOIN NOW</Button>
+       </Grid>
+     </Grid>
+    </Paper><br />
     
       
     </div>
