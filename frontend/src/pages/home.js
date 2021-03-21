@@ -73,6 +73,7 @@ function Home(props) {
 														localStorage.clear();
 														window.location.reload();
 													}}
+													style={{ color: "darkgray" }}
 												>
 													Log out
 												</Button>

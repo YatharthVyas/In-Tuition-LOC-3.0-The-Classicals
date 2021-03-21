@@ -13,6 +13,7 @@ import Login from "../pages/login.js";
 import Doubts from "../pages/doubts.js";
 import Signup from "../pages/signup.js";
 import VideoConf from "./VideoConf.js";
+import AssignmentPage from "../pages/assignmentPage.js";
 import Chatbot from "../Components/chatbot.js";
 import {
 	Route,
@@ -20,6 +21,7 @@ import {
 	Switch,
 	Redirect,
 } from "react-router-dom";
+import Assignment from "./Assignment";
 
 function ProtectedRoutes() {
 	return localStorage.getItem("userId") ? (
@@ -38,6 +40,13 @@ function ProtectedRoutes() {
 			<Route exact path="/search" component={Search} />
 			<Route exact path="/classroom/:cid" component={Classroom} />
 			<Route exact path="/teachclassroom/:cid" component={ClassroomTeacher} />
+			<Route
+				exact
+				path="/assignment/:cid/:id"
+				render={(props) => {
+					return <AssignmentPage {...props} />;
+				}}
+			/>
 		</div>
 	) : (
 		<Redirect to="/" />
