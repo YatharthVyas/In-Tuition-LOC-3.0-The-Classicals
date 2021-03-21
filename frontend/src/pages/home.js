@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Chatbot from "../Components/chatbot";
+import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
@@ -61,12 +62,33 @@ function Home(props) {
 									<li>
 										<a href="#testimonials">Testimonials</a>
 									</li>
-									<li>
-										<Link to="/signup">Register</Link>
-									</li>
-									<li>
-										<Link to="/login">Login</Link>
-									</li>
+									{localStorage.getItem("userId") ? (
+										<React.Fragment>
+											<li>
+												<Link to="/dashboard">Dashboard</Link>
+											</li>
+											<li>
+												<Button
+													onClick={() => {
+														localStorage.clear();
+														window.location.reload();
+													}}
+												>
+													Log out
+												</Button>
+											</li>
+										</React.Fragment>
+									) : (
+										<React.Fragment>
+											<li>
+												<Link to="/signup">Register</Link>
+											</li>
+											<li>
+												<Link to="/login">Login</Link>
+											</li>
+										</React.Fragment>
+									)}
+									<li></li>
 								</ul>
 								<a className="menu-trigger">
 									<span>Menu</span>
