@@ -64,7 +64,7 @@ function Navbar() {
 	else
 		arr = [
 			{ nameVal: "My Batches", direct: "/dashboard" },
-			{ nameVal: "Calendar", direct: "/dashboard" },
+			{ nameVal: "Add Batch", direct: "/class/add" },
 			{ nameVal: "Doubts", direct: "/doubts" },
 		];
 

@@ -132,6 +132,7 @@ export default function AddClassroom() {
 						axios(config)
 							.then((response) => {
 								console.log(JSON.stringify(response.data));
+								history.push("/dashboard");
 							})
 							.catch((error) => {
 								console.log(error);

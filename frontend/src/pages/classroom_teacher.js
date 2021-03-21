@@ -63,7 +63,6 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
-<<<<<<< HEAD
   root: {
     backgroundColor: theme.palette.background.paper,
     width: "100%",
@@ -194,126 +193,6 @@ const handleClickOpen = () => {
           dir={theme.direction}
         >
          <Paper className={classes.paperBorder} elevation={3}>
-=======
-	root: {
-		backgroundColor: theme.palette.background.paper,
-		width: "100%",
-	},
-	paperBorder: {
-		borderStyle: "solid",
-		borderRadius: "10px",
-		borderColor: theme.palette.primary.main,
-		borderWidth: "2px",
-		height: "120px",
-		padding: "20px",
-	},
-}));
-
-export default function PersistentDrawerLeft() {
-	const classes = useStyles();
-	const theme = useTheme();
-	const [value, setValue] = React.useState(0);
-
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
-	};
-
-	const handleChangeIndex = (index) => {
-		setValue(index);
-	};
-
-	const [subData, setSubData] = React.useState([]);
-
-	const [searchTerm, setSearchTerm] = React.useState("");
-
-	const [searchResults, setSearchResults] = React.useState([]);
-	const [testOpen, setTestOpen] = React.useState(0);
-
-	const params = useParams();
-	console.log(params.cid);
-
-	var subject_data = [
-		{ title: "MACHINE LEARNING", teacher: "Prof K. Sharma" },
-		{ title: "DATA MINING", teacher: "Prof K. Sharma" },
-		{ title: "COMPILERS", teacher: "Prof K. Sharma" },
-		{ title: "APPLIED MATHS", teacher: "Prof K. Sharma" },
-		{ title: "WEB DEV", teacher: "Prof K. Sharma" },
-		{ title: "APPLIED PHYSICS", teacher: "Prof K. Sharma" },
-	];
-
-	React.useEffect(() => {
-		const results = subject_data.filter((sub) =>
-			sub.title.toLowerCase().includes(searchTerm.toLowerCase())
-		);
-		setSearchResults(results);
-	}, [searchTerm]);
-	console.log(localStorage.getItem("isStudent"));
-
-	React.useEffect(() => {
-		axios
-			.get(
-				`https://virtualclassloc.herokuapp.com/tutor/mybatches/?tutorId=${localStorage.getItem(
-					"userId"
-				)}`
-			)
-			.then((response) => {
-				console.log(response.data);
-				var d = response.data;
-				for (var i = 0; i < d.length; i++) {}
-				setSubData(response.data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, []);
-
-	const [open, setOpen] = React.useState(false);
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const handleSendId = () => {
-		setOpen(false);
-		setTestOpen(1);
-	};
-
-	return (
-		<div className={classes.root}>
-			<AppBar position="static" color="default">
-				<Tabs
-					value={value}
-					onChange={handleChange}
-					indicatorColor="primary"
-					textColor="primary"
-					variant="fullWidth"
-					aria-label="full width tabs example"
-				>
-					<Tab
-						style={{ paddingLeft: "30px" }}
-						label="Whiteboard"
-						{...a11yProps(0)}
-					/>
-					<Tab label="Lecture" {...a11yProps(1)} />
-					<Tab label="Assignments" {...a11yProps(2)} />
-				</Tabs>
-			</AppBar>
-			<SwipeableViews
-				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-				index={value}
-				onChangeIndex={handleChangeIndex}
-			>
-				<TabPanel
-					style={{ marginTop: "20px" }}
-					value={value}
-					index={0}
-					dir={theme.direction}
-				>
-					<Paper className={classes.paperBorder} elevation={3}>
->>>>>>> 67c8206d7ca49b53e200be424b032c1537048e62
 						<Grid container spacing={2}>
 							<Grid item xs={9}>
 								<h2>VIEW WHITEBOARD</h2>
@@ -326,7 +205,6 @@ export default function PersistentDrawerLeft() {
 								</a>
 							</Grid>
 						</Grid>
-<<<<<<< HEAD
 					</Paper><br />
         </TabPanel>
         <TabPanel
@@ -338,20 +216,6 @@ export default function PersistentDrawerLeft() {
           <Lecture />
         </TabPanel>
         {/* <TabPanel
-=======
-					</Paper>
-					<br />
-				</TabPanel>
-				<TabPanel
-					style={{ marginTop: "20px" }}
-					value={value}
-					index={1}
-					dir={theme.direction}
-				>
-					<Lecture />
-				</TabPanel>
-				{/* <TabPanel
->>>>>>> 67c8206d7ca49b53e200be424b032c1537048e62
           style={{ marginTop: "20px" }}
           value={value}
           index={1}
