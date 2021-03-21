@@ -206,6 +206,7 @@ function Whiteboard(props) {
 									height="500px"
 									width="800px"
 									alt="whiteboard"
+									className={classes.canvas}
 								/>
 							)}
 							<br />
