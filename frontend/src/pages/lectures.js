@@ -85,6 +85,9 @@ export default function Lectures() {
 
 	return (
 		<div className={classes.paperBorder}>
+			<div align="center">
+				<img src="/assets/images/lectures.png" width="1000" />
+			</div>
 			{localStorage.getItem("isStudent") == "false" ? (
 				<form onSubmit={submitHandle} className={classes.container} noValidate>
 					<TextField

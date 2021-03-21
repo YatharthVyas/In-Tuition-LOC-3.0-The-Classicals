@@ -72,7 +72,6 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: "10px",
 		borderColor: theme.palette.primary.main,
 		borderWidth: "2px",
-		height: "120px",
 		padding: "20px",
 	},
 }));
@@ -181,10 +180,12 @@ export default function PersistentDrawerLeft() {
 					dir={theme.direction}
 				>
 					<Paper className={classes.paperBorder} elevation={3}>
+						<div align="center">
+							<img src="/assets/images/whiteboard.png" width="1000" />
+						</div>
+						<br />
 						<Grid container spacing={2}>
-							<Grid item xs={9}>
-								<h2>VIEW WHITEBOARD</h2>
-							</Grid>
+							<Grid item xs={9}></Grid>
 							<Grid item xs={3}>
 								<a style={{ textDecoration: "none" }} href="/whiteboard">
 									<Button color="primary" variant="outlined">

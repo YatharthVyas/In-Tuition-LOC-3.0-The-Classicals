@@ -138,9 +138,7 @@ function Home(props) {
 											</i>
 										</div>
 										<h5 className="features-title">Modern Strategy</h5>
-										<p>
-											Our platform provides you with modern tools to learn!
-										</p>
+										<p>Our platform provides you with modern tools to learn!</p>
 									</div>
 								</div>
 								<div
@@ -154,7 +152,9 @@ function Home(props) {
 											</i>
 										</div>
 										<h5 className="features-title">Best Relationship</h5>
-										<p>Contact us immediately if you have any technical issues</p>
+										<p>
+											Contact us immediately if you have any technical issues
+										</p>
 									</div>
 								</div>
 								<div
@@ -168,9 +168,7 @@ function Home(props) {
 											</i>
 										</div>
 										<h5 className="features-title">Smooth UI</h5>
-										<p>
-											Our Smooth UI helps you manage and learn better
-										</p>
+										<p>Our Smooth UI helps you manage and learn better</p>
 									</div>
 								</div>
 							</div>
@@ -197,17 +195,27 @@ function Home(props) {
 						<div className="col-lg-1"></div>
 						<div className="col-lg-6 col-md-12 col-sm-12 align-self-center mobile-top-fix">
 							<div className="left-heading">
-								<h2 className="section-title">
-									Our Unique Features
-								</h2>
+								<h2 className="section-title">Our Unique Features</h2>
 							</div>
 							<div className="left-text">
 								<p>Whiteboard feature which syncs faster than MS teams</p>
-								<p>NLP based chatbot to solve students doubts when teachers are unavailable. This bot learns by reading books & articles</p>
+								<p>
+									NLP based chatbot to solve students doubts when teachers are
+									unavailable. This bot learns by reading books & articles
+								</p>
 								<p>Whiteboard allows students to take screenshots of notes</p>
-								<p>Students can ask doubts anonymously without any fear of judgement</p>
-								<p>To ensure no one misuses chat, a NLP based profanity filter is used</p>
-								<p>Teachers can check and record students who fail an attentiveness check</p>
+								<p>
+									Students can ask doubts anonymously without any fear of
+									judgement
+								</p>
+								<p>
+									To ensure no one misuses chat, a NLP based profanity filter is
+									used
+								</p>
+								<p>
+									Teachers can check and record students who fail an
+									attentiveness check
+								</p>
 								<p>On point scheduling of assignments & video lectures</p>
 								<p>Visualisation of Test Performance</p>
 							</div>
@@ -225,13 +233,13 @@ function Home(props) {
 					<div className="row">
 						<div className="col-lg-6 col-md-12 col-sm-12 align-self-center mobile-bottom-fix">
 							<div className="left-heading">
-								<h2 className="section-title">
-									Student & Tutors 
-								</h2>
+								<h2 className="section-title">Student & Tutors</h2>
 							</div>
 							<div className="left-text">
 								<p>
-									A great Student Tutor environment facilitating both students and teachers to interact smoothly and carry out learning efficiently
+									A great Student Tutor environment facilitating both students
+									and teachers to interact smoothly and carry out learning
+									efficiently
 								</p>
 							</div>
 						</div>
@@ -256,8 +264,7 @@ function Home(props) {
 							<div className="offset-lg-3 col-lg-6">
 								<div className="info">
 									<h1>Work Process</h1>
-									<p>
-									</p>
+									<p></p>
 								</div>
 							</div>
 						</div>
@@ -268,7 +275,9 @@ function Home(props) {
 										<img src="assets/images/work-process-item-01.png" alt="" />
 									</i>
 									<strong>Search Batch</strong>
-									<span>Search for your desired subject and enroll to the batch</span>
+									<span>
+										Search for your desired subject and enroll to the batch
+									</span>
 								</a>
 							</div>
 							<div className="col-lg-2 col-md-3 col-sm-6 col-6">
@@ -277,7 +286,9 @@ function Home(props) {
 										<img src="assets/images/work-process-item-01.png" alt="" />
 									</i>
 									<strong>Ask Doubts</strong>
-									<span>Doubts can be asked to our Tutor Bot,P.S he's 24/7 available</span>
+									<span>
+										Doubts can be asked to our Tutor Bot,P.S he's 24/7 available
+									</span>
 								</a>
 							</div>
 							<div className="col-lg-2 col-md-3 col-sm-6 col-6">
@@ -286,7 +297,10 @@ function Home(props) {
 										<img src="assets/images/work-process-item-01.png" alt="" />
 									</i>
 									<strong>Discuss</strong>
-									<span>In Classroom Chat feature to ask doubts and discuss with teacher.</span>
+									<span>
+										In Classroom Chat feature to ask doubts and discuss with
+										teacher.
+									</span>
 								</a>
 							</div>
 							<div className="col-lg-2 col-md-3 col-sm-6 col-6">
@@ -295,7 +309,9 @@ function Home(props) {
 										<img src="assets/images/work-process-item-01.png" alt="" />
 									</i>
 									<strong>Assignments</strong>
-									<span>Get scheduled assignments and submit it before time  </span>
+									<span>
+										Get scheduled assignments and submit it before time{" "}
+									</span>
 								</a>
 							</div>
 							<div className="col-lg-2 col-md-3 col-sm-6 col-6">
@@ -330,9 +346,7 @@ function Home(props) {
 						</div>
 						<div className="offset-lg-3 col-lg-6">
 							<div className="center-text">
-								<p>
-									
-								</p>
+								<p></p>
 							</div>
 						</div>
 					</div>
@@ -345,7 +359,8 @@ function Home(props) {
 										<img src="assets/images/testimonial-icon.png" alt="" />
 									</i>
 									<p>
-										Experienced Backend developer with little bit of Front End knowledge
+										Experienced Backend developer with little bit of Front End
+										knowledge
 									</p>
 									<div className="user-image">
 										<img src="http://placehold.it/60x60" alt="" />
@@ -364,7 +379,8 @@ function Home(props) {
 										<img src="assets/images/testimonial-icon.png" alt="" />
 									</i>
 									<p>
-										Experienced Backend developer with little bit of Front End knowledge
+										Experienced Backend developer with little bit of Front End
+										knowledge
 									</p>
 									<div className="user-image">
 										<img src="http://placehold.it/60x60" alt="" />
@@ -382,9 +398,7 @@ function Home(props) {
 									<i>
 										<img src="assets/images/testimonial-icon.png" alt="" />
 									</i>
-									<p>
-										Experienced Front End developer with expertise in UI/UX
-									</p>
+									<p>Experienced Front End developer with expertise in UI/UX</p>
 									<div className="user-image">
 										<img src="http://placehold.it/60x60" alt="" />
 									</div>
@@ -402,7 +416,8 @@ function Home(props) {
 										<img src="assets/images/testimonial-icon.png" alt="" />
 									</i>
 									<p>
-										A third year CS student at DJSCE . Passionate about tech and a front end expert
+										A third year CS student at DJSCE . Passionate about tech and
+										a front end expert
 									</p>
 									<div className="user-image">
 										<img src="http://placehold.it/60x60" alt="" />
@@ -460,9 +475,7 @@ function Home(props) {
 						</div>
 						<div className="offset-lg-3 col-lg-6">
 							<div className="center-text">
-								<p>
-									Ask your doubts on Global blog in your classroom
-								</p>
+								<p>Ask your doubts on Global blog in your classroom</p>
 							</div>
 						</div>
 					</div>
@@ -478,7 +491,10 @@ function Home(props) {
 										<a href="#">Artificial NN Blog</a>
 									</h3>
 									<div className="text">
-									Artificial neural networks (ANNs), usually simply called neural networks (NNs), are computing systems vaguely inspired by the biological neural networks that constitute animal brains.[1]
+										Artificial neural networks (ANNs), usually simply called
+										neural networks (NNs), are computing systems vaguely
+										inspired by the biological neural networks that constitute
+										animal brains.[1]
 									</div>
 									<a href="#" className="main-button">
 										Read More
@@ -496,7 +512,11 @@ function Home(props) {
 										<a href="#">Web Sockets Blog</a>
 									</h3>
 									<div className="text">
-									WebSocket is a computer communications protocol, providing full-duplex communication channels over a single TCP connection. The WebSocket protocol was standardized by the IETF as RFC 6455 in 2011, and the WebSocket API in Web IDL is being standardiz
+										WebSocket is a computer communications protocol, providing
+										full-duplex communication channels over a single TCP
+										connection. The WebSocket protocol was standardized by the
+										IETF as RFC 6455 in 2011, and the WebSocket API in Web IDL
+										is being standardiz
 									</div>
 									<a href="#" className="main-button">
 										Read More
@@ -514,7 +534,9 @@ function Home(props) {
 										<a href="#">Machine Learning</a>
 									</h3>
 									<div className="text">
-									Machine learning (ML) is the study of computer algorithms that improve automatically through experience and by the use of data.[1] It is seen as a part of artificial intelligence.
+										Machine learning (ML) is the study of computer algorithms
+										that improve automatically through experience and by the use
+										of data.[1] It is seen as a part of artificial intelligence.
 									</div>
 									<a href="#" className="main-button">
 										Read More
