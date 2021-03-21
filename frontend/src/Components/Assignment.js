@@ -60,7 +60,7 @@ export default function Assignment() {
 			setAssignments(res);
 		});
 	}, []);
-	const onSubmit = () => {
+	const onSubmit = (url) => {
 		console.log("IN");
 		// if (proceed) {
 		console.log(dateTime);
@@ -83,7 +83,7 @@ export default function Assignment() {
 		assignment.date = dt[0];
 		assignment.time = dt[1];
 		assignment.istDateTime = istDateTime;
-		assignment.path = pathFire;
+		assignment.path = url;
 		// assignment.fileName = res.name;
 		// assignment.filePathLocal = res.uri;
 		console.log("ASSIGN", assignment);
