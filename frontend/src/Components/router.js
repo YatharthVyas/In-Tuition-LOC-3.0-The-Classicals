@@ -47,6 +47,7 @@ function ProtectedRoutes() {
 					return <AssignmentPage {...props} />;
 				}}
 			/>
+			<Chatbot />
 		</div>
 	) : (
 		<Redirect to="/" />

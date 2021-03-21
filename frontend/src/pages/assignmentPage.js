@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -47,33 +47,85 @@ const useStyles = makeStyles({
 export default function CustomizedTables(props) {
 	const classes = useStyles();
 	console.log(props.match.params.cid, props.match.params.id);
+	const [assignments, setAssignments] = useState([]);
+	useEffect(() => {
+		const axios = require("axios");
+
+		let config = {
+			method: "get",
+			url: `/tutor/responses/?assignId=${props.match.params.id}&batchId=${props.match.params.cid}`,
+			headers: {},
+		};
+
+		axios(config)
+			.then((response) => {
+				console.log(JSON.stringify(response.data));
+				//setAssignments(response.data.)
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	});
 
 	return (
-		<TableContainer component={Paper}>
-			<Table className={classes.table} aria-label="customized table">
-				<TableHead>
-					<TableRow>
-						<StyledTableCell>Dessert (100g serving)</StyledTableCell>
-						<StyledTableCell align="right">Calories</StyledTableCell>
-						<StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-						<StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-						<StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{rows.map((row) => (
-						<StyledTableRow key={row.name}>
-							<StyledTableCell component="th" scope="row">
-								{row.name}
-							</StyledTableCell>
-							<StyledTableCell align="right">{row.calories}</StyledTableCell>
-							<StyledTableCell align="right">{row.fat}</StyledTableCell>
-							<StyledTableCell align="right">{row.carbs}</StyledTableCell>
-							<StyledTableCell align="right">{row.protein}</StyledTableCell>
-						</StyledTableRow>
-					))}
-				</TableBody>
-			</Table>
-		</TableContainer>
+		<div>
+			<h2> Submitted by: </h2>
+			<br />
+			<TableContainer component={Paper}>
+				<Table className={classes.table} aria-label="customized table">
+					<TableHead>
+						<TableRow>
+							<StyledTableCell>Dessert (100g serving)</StyledTableCell>
+							<StyledTableCell align="right">Calories</StyledTableCell>
+							<StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
+							<StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
+							<StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{rows.map((row) => (
+							<StyledTableRow key={row.name}>
+								<StyledTableCell component="th" scope="row">
+									{row.name}
+								</StyledTableCell>
+								<StyledTableCell align="right">{row.calories}</StyledTableCell>
+								<StyledTableCell align="right">{row.fat}</StyledTableCell>
+								<StyledTableCell align="right">{row.carbs}</StyledTableCell>
+								<StyledTableCell align="right">{row.protein}</StyledTableCell>
+							</StyledTableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+			<br /> <br />
+			<h2> Pending submissions: </h2>
+			<br />
+			<TableContainer component={Paper}>
+				<Table className={classes.table} aria-label="customized table">
+					<TableHead>
+						<TableRow>
+							<StyledTableCell>Dessert (100g serving)</StyledTableCell>
+							<StyledTableCell align="right">Calories</StyledTableCell>
+							<StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
+							<StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
+							<StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{rows.map((row) => (
+							<StyledTableRow key={row.name}>
+								<StyledTableCell component="th" scope="row">
+									{row.name}
+								</StyledTableCell>
+								<StyledTableCell align="right">{row.calories}</StyledTableCell>
+								<StyledTableCell align="right">{row.fat}</StyledTableCell>
+								<StyledTableCell align="right">{row.carbs}</StyledTableCell>
+								<StyledTableCell align="right">{row.protein}</StyledTableCell>
+							</StyledTableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		</div>
 	);
 }
