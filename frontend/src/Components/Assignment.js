@@ -78,10 +78,10 @@ export default function Assignment() {
 		console.log(istDateTime);
 		let assignment = {};
 		let batchId = "6055f18d109fae0004b682d0";
-		assignment.batchId = batchId;
+		assignment.batchId = params.cid;
 		assignment.name = name;
-		assignment.date = dt[0];
-		assignment.time = dt[1];
+		assignment.date = utcDate;
+		assignment.time = utcTime;
 		assignment.istDateTime = istDateTime;
 		assignment.path = url;
 		// assignment.fileName = res.name;
