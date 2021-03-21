@@ -12,8 +12,7 @@ import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 const useStyles = makeStyles((theme) => ({
 	container: {
-		display: "flex",
-		flexWrap: "wrap",
+		display: "block",
 	},
 	textField: {
 		marginLeft: theme.spacing(1),
@@ -26,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
 		borderColor: theme.palette.primary.main,
 		borderWidth: "2px",
 		height: "120px",
+		padding: "20px",
+	},
+	form: {
+		borderRadius: "10px",
+		boxShadow:
+			" 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
 		padding: "20px",
 	},
 }));
@@ -61,7 +66,7 @@ export default function Assignment() {
 		});
 	}, []);
 	const onSubmit = (url) => {
-		console.log("IN");
+		console.log(url);
 		// if (proceed) {
 		console.log(dateTime);
 		// uploadToFirebaseStorage();
@@ -77,7 +82,7 @@ export default function Assignment() {
 		var dt = istDateTime.split("T");
 		console.log(istDateTime);
 		let assignment = {};
-		let batchId = "6055f18d109fae0004b682d0";
+		// let batchId = "6055f18d109fae0004b682d0";
 		assignment.batchId = params.cid;
 		assignment.name = name;
 		assignment.date = utcDate;
@@ -95,67 +100,87 @@ export default function Assignment() {
 
 	return (
 		<div>
+			<br />
 			{localStorage.getItem("isStudent") == "false" ? (
-				<form className={classes.container} noValidate>
-					<TextField
-						required
-						id="standard-required"
-						label="Required"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
-					<TextField
-						id="datetime-local"
-						label="Next appointment"
-						type="datetime-local"
-						// defaultValue="2017-05-24T10:30"
-						value={dateTime}
-						onChange={(e) => {
-							setDateTime(e.target.value);
-						}}
-						className={classes.textField}
-						InputLabelProps={{
-							shrink: true,
-						}}
-					/>
-					{/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
-					<input type="file" onChange={uploadToFirebaseStorage} />
-					{/* Keep this submit button as dummy */}
-					<button onClick={() => onSubmit()}>Upload</button>
-				</form>
+				<div className={classes.form}>
+					<form className={classes.container} noValidate>
+						<TextField
+							required
+							id="standard-required"
+							label="Required"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							fullWidth
+						/>{" "}
+						<br />
+						<br />
+						<TextField
+							style={{ marginRight: 60 }}
+							id="datetime-local"
+							label="Next appointment"
+							type="datetime-local"
+							// defaultValue="2017-05-24T10:30"
+							value={dateTime}
+							onChange={(e) => {
+								setDateTime(e.target.value);
+							}}
+							className={classes.textField}
+							InputLabelProps={{
+								shrink: true,
+							}}
+						/>
+						<br />
+						<br />
+						{/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
+						<TextField type="file" onChange={uploadToFirebaseStorage} />
+						{/* Keep this submit button as dummy */}
+						<br />
+					</form>
+					<div align="center">
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={() => onSubmit()}
+						>
+							Upload
+						</Button>
+					</div>
+				</div>
 			) : (
-				<form
-					style={{ visibility: "hidden" }}
-					className={classes.container}
-					noValidate
-				>
-					<TextField
-						required
-						id="standard-required"
-						label="Required"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
-					<TextField
-						id="datetime-local"
-						label="Next appointment"
-						type="datetime-local"
-						// defaultValue="2017-05-24T10:30"
-						value={dateTime}
-						onChange={(e) => {
-							setDateTime(e.target.value);
-						}}
-						className={classes.textField}
-						InputLabelProps={{
-							shrink: true,
-						}}
-					/>
-					{/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
-					<input type="file" onChange={uploadToFirebaseStorage} />
-					{/* Keep this submit button as dummy */}
-					<button onClick={() => onSubmit()}>Upload</button>
-					<br />
-				</form>
+				<div>
+					<form
+						style={{ display: "none" }}
+						className={classes.container}
+						noValidate
+					>
+						<TextField
+							required
+							id="standard-required"
+							label="Required"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+						/>
+						<TextField
+							id="datetime-local"
+							label="Next appointment"
+							type="datetime-local"
+							// defaultValue="2017-05-24T10:30"
+							value={dateTime}
+							onChange={(e) => {
+								setDateTime(e.target.value);
+							}}
+							className={classes.textField}
+							InputLabelProps={{
+								shrink: true,
+							}}
+						/>
+						{/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
+						<input type="file" onChange={uploadToFirebaseStorage} />
+						{/* Keep this submit button as dummy */}
+						<button onClick={() => onSubmit()}>Upload</button>
+						<br />
+					</form>
+				</div>
 			)}
 			<h1>SCHEDULED ASSIGNMENTS</h1> <br />
 			{assignments &&
@@ -172,6 +197,8 @@ export default function Assignment() {
 										<Button color="primary" variant="outlined">
 											ASSIGNED DATE: <br />
 											{assignment.istDateTime.split("T")[0]}
+											<br />
+											{assignment.istDateTime.split("T")[1]}
 										</Button>
 									</Grid>
 								</Grid>
