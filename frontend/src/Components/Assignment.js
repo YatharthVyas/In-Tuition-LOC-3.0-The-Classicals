@@ -194,12 +194,12 @@ export default function Assignment() {
 										<h2>{assignment.name.toUpperCase()}</h2>
 									</Grid>
 									<Grid item xs={3}>
-										<Button color="primary" variant="outlined">
+									<a href = {assignment.path} style = {{textDecoration:"none"}} target="_blank" rel = "noopener noreferrer">	<Button color="primary" variant="outlined">
 											ASSIGNED DATE: <br />
 											{assignment.istDateTime.split("T")[0]}
 											<br />
 											{assignment.istDateTime.split("T")[1]}
-										</Button>
+										</Button></a>
 									</Grid>
 								</Grid>
 							</Paper>

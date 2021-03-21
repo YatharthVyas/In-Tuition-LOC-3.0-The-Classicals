@@ -25,6 +25,14 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     width: 200,
   },
+  paperBorder: {
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: theme.palette.primary.main,
+    borderWidth: "2px",
+    height: "120px",
+    padding: "20px",
+},
 }));
 
 export default function Lectures() {
@@ -178,16 +186,21 @@ export default function Lectures() {
       {lecs && lecs.map((item) => {
  return(   
     <div>     
- <Paper  style = {{borderStyle:"solid",borderRadius:"10px",borderColor:"#f7d80a",borderWidth:"2px",height:"120px",padding:"20px"}} elevation = {3}>
-     <Grid container spacing = {2}>
-       <Grid item xs = {9}>
-       <h2>{item.name}</h2>
-       </Grid>
-       <Grid item xs = {3}>
-       <a href = {item.link} style = {{textDecoration:"none"}} target="_blank" rel = "noopener noreferrer"><Button color="primary" variant = "outlined">JOIN NOW</Button></a>
-       </Grid>
-     </Grid>
-    </Paper>
+ 
+<Paper className={classes.paperBorder} elevation={3}>
+						<Grid container spacing={2}>
+							<Grid item xs={9}>
+								<h2>{item.name}</h2>
+							</Grid>
+							<Grid item xs={3}>
+                            <a href = {item.link} style = {{textDecoration:"none"}} target="_blank" rel = "noopener noreferrer">
+									<Button color="primary" variant="outlined">
+										JOIN HERE
+									</Button>
+								</a>
+							</Grid>
+						</Grid>
+					</Paper>
     <br />
     </div>
  )
@@ -202,3 +215,5 @@ export default function Lectures() {
     </div>
   );
 }
+
+

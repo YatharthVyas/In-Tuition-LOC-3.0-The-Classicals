@@ -67,6 +67,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     width: "100%",
   },
+  paperBorder: {
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: theme.palette.primary.main,
+    borderWidth: "2px",
+    height: "120px",
+    padding: "20px",
+},
 }));
 
 export default function PersistentDrawerLeft() {
@@ -184,16 +192,20 @@ const handleClickOpen = () => {
           index={0}
           dir={theme.direction}
         >
-          <Paper  style = {{borderStyle:"solid",borderRadius:"10px",borderColor:"#f7d80a",borderWidth:"2px",height:"120px",padding:"20px"}} elevation = {3}>
-     <Grid container spacing = {2}>
-       <Grid item xs = {9}>
-       <h2>VIEW WHITEBOARD</h2>
-       </Grid>
-       <Grid item xs = {3}>
-       <a style = {{textDecoration:"none"}} href = "/whiteboard"><Button color="primary" variant = "outlined">JOIN HERE</Button></a>
-       </Grid>
-     </Grid>
-    </Paper><br />
+         <Paper className={classes.paperBorder} elevation={3}>
+						<Grid container spacing={2}>
+							<Grid item xs={9}>
+								<h2>VIEW WHITEBOARD</h2>
+							</Grid>
+							<Grid item xs={3}>
+								<a style={{ textDecoration: "none" }} href="/whiteboard">
+									<Button color="primary" variant="outlined">
+										JOIN HERE
+									</Button>
+								</a>
+							</Grid>
+						</Grid>
+					</Paper><br />
         </TabPanel>
         <TabPanel
           style={{ marginTop: "20px" }}

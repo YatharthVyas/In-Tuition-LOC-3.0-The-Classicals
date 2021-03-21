@@ -210,7 +210,7 @@ export default function PersistentDrawerLeft() {
 					index={1}
 					dir={theme.direction}
 				>
-					Lecture
+				<Lecture />
 				</TabPanel>
 				{/* <TabPanel
           style={{ marginTop: "20px" }}
