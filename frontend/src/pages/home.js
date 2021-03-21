@@ -45,7 +45,7 @@ function Home(props) {
 						<div className="col-12">
 							<nav className="main-nav">
 								<a href="#" className="logo">
-									<h4>e-Learn Pro</h4>
+									<h4>In-tuition</h4>
 								</a>
 								<ul className="nav">
 									<li>
@@ -110,7 +110,7 @@ function Home(props) {
 									to augment up your <strong>learning</strong>
 								</h1>
 								<p>
-									e-Learn Pro is a professional online Learning Platform
+									In-tuition is a professional online Learning Platform
 									designed to help students at your school and college inherit
 									the education they deserve
 								</p>

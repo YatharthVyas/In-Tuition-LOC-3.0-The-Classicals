@@ -80,6 +80,7 @@ export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const [open,setOpen] = React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -109,6 +110,16 @@ export default function PersistentDrawerLeft() {
     { title: "WEB DEV", teacher: "Prof K. Sharma" },
     { title: "APPLIED PHYSICS", teacher: "Prof K. Sharma" },
   ];
+
+  const handleSendId = () => {
+    setOpen(false);
+    setTestOpen(1);
+};
+
+
+const handleClose = () => {
+    setOpen(false);
+};
 
   React.useEffect(() => {
     const results = subject_data.filter((sub) =>

@@ -139,7 +139,7 @@ function Navbar() {
 							onClick={() => history.push("/")}
 							className={classes.title}
 						>
-							e-Learn Pro
+							In-Tuition
 						</Typography>
 					</div>
 
