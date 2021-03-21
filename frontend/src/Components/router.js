@@ -4,6 +4,7 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 import Whiteboard from "../pages/whiteboard.js";
 import DashboardStudent from "../pages/dashboard_student.js";
+import ClassroomTeacher from "../pages/classroom_teacher.js";
 import Dashboard from "../pages/dashboard.js";
 import Search from "../pages/search.js";
 import Classroom from "../pages/classroom.js";
@@ -34,6 +35,7 @@ function ProtectedRoutes() {
 
 			<Route exact path="/search" component={Search} />
 			<Route exact path="/classroom/:cid" component={Classroom} />
+			<Route exact path="/teachclassroom/:cid" component={ClassroomTeacher} />
 		</div>
 	) : (
 		<Redirect to="/" />

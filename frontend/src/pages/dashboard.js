@@ -130,7 +130,7 @@ var image_arr = [
     {subData.map((item) => {
         return(
 <Grid item xs = {4}>
-          <Paper elevation = {3} style = {{height:"300px",borderRadius:"10px",paddingTop:"10px",paddingBottom:"10px"}}>
+<a style = {{textDecoration:"none"}} href={`/teachclassroom/${item._id}`} target="_blank" rel = "noopener noreferrer">  <Paper elevation = {3} style = {{height:"300px",borderRadius:"10px",paddingTop:"10px",paddingBottom:"10px"}}>
           <div style = {{height:"60%",backgroundColor:color_arr[item.info.subject.length%10],borderRadius:"10px",paddingLeft:"10px",paddingRight:"10px"}}>
 <Grid container spacing = {2}>
     <Grid item xs = {8}>
@@ -144,7 +144,7 @@ var image_arr = [
 
 </div>   
 <h1 style = {{marginLeft:"10px"}}>{item.info.tutor}</h1>  
-          </Paper>
+          </Paper></a>
       </Grid>
         )
         
