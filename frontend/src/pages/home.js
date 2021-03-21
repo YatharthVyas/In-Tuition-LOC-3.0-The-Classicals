@@ -514,8 +514,6 @@ function Home(props) {
 			<script src="assets/js/imgfix.min.js"></script>
 
 			<script src="assets/js/custom.js"></script>
-
-			<Chatbot />
 		</div>
 	);
 }
