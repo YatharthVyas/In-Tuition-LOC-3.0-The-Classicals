@@ -59,13 +59,13 @@ function Navbar() {
 			{ nameVal: "My Batches", direct: "/dashboard" },
 			{ nameVal: "Search Batches", direct: "/search" },
 			{ nameVal: "Assignments", direct: "/dashboard" },
-			{ nameVal: "Doubts", direct: "/dashboard" },
+			{ nameVal: "Doubts", direct: "/doubts" },
 		];
 	else
 		arr = [
 			{ nameVal: "My Batches", direct: "/dashboard" },
 			{ nameVal: "Calendar", direct: "/dashboard" },
-			{ nameVal: "Doubts", direct: "/dashboard" },
+			{ nameVal: "Doubts", direct: "/doubts" },
 		];
 
 	const toggleDrawer = (anchor, open) => (event) => {

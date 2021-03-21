@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: 20,
 		flexGrow: 1,
 		border: "1px solid #F4C430",
+		borderColor: theme.palette.primary.main,
 		fontFamily: "Mulish",
 	},
 	headingSVG: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 		height: 30,
 		paddingTop: 3,
 		marginBottom: -8,
-		color: "#F4C430",
+		color: theme.palette.primary.main,
 	},
 	textf: {
 		marginTop: 20,
