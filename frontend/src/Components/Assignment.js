@@ -16,6 +16,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { Typography } from "@material-ui/core";
 
 const axios = require('axios');
 const useStyles = makeStyles((theme) => ({
@@ -58,6 +59,8 @@ export default function Assignment() {
   const [image, setImage] = useState(null);
   const [assignments, setAssignments] = useState([]);
   const [assignId,setAssignId] = useState(null);
+  const [msg,setMsg] = useState("");
+  const [msg1,setMsg1] = useState("");
 
   const uploadToFirebaseStorage = async (e) => {
     const file = e.target.files[0];
@@ -111,6 +114,7 @@ export default function Assignment() {
     scheduleAssignment(assignment).then(() => {
       // navigation.goBack();
       console.log("SUCCESS");
+      setMsg("ASSIGNMENT SCHEDULED SUCCESSFULLY");
     });
   };
   console.log("TODAY DATE : " + date.getTime());
@@ -138,6 +142,7 @@ export default function Assignment() {
 
         console.log(response.data);
         console.log("RESPONSE SENT");
+        setMsg1("DEADLINE UPDATED SUCCESSFULLY");
         
        
 
@@ -213,6 +218,8 @@ export default function Assignment() {
             >
               Upload
             </Button>
+            <br /><br />
+            <Typography variant = "p" style = {{color:"green"}}>{msg}</Typography>
           </div>
         </div>
       )}
@@ -346,7 +353,8 @@ export default function Assignment() {
               onClick = {handleUpdate}
             >
              UPDATE
-            </Button>
+            </Button><br /><br />
+            <Typography variant = "p" style = {{color:"green"}}>{msg1}</Typography>
 		  </div>
 				</DialogContent>
 				<DialogActions>

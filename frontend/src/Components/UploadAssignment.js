@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const StudentResponse = () => {
   const [name, setName] = useState("");
   const [path, setPath] = useState(null);
+  const [msg,setMsg] = useState("");
   const classes = useStyles();
   const params = useParams();
   const assignId = params.assignId;
@@ -80,6 +81,7 @@ const StudentResponse = () => {
     sendResponse(response).then(() => {
       // navigation.goBack();
       console.log("SUCCESS");
+      setMsg("ASSIGNMENT SUBMITTED SUCCESSFULLY");
     });
   };
 
@@ -142,6 +144,7 @@ const StudentResponse = () => {
              Submit
            </Button>
             :
+            <div>
             <Button
             variant="contained"
             color="primary"
@@ -149,7 +152,9 @@ const StudentResponse = () => {
             
           >
             Submit
-          </Button>
+          </Button><br /><br />
+          <Typography variant = "p" style = {{color:"green"}}>{msg}</Typography>
+          </div>
             }
           </div>
         </div>

@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { isPromise } from "formik";
+import { Typography } from "@material-ui/core";
 
 const axios = require('axios');
 
@@ -43,17 +44,9 @@ export default function Lectures() {
   const [name, setName] = useState("");
   const [dateTime, setDateTime] = useState(new Date().toISOString());
   const [lecs,setLecs] = useState([]);
-  const [open, setOpen] = React.useState(false);
+  const [msg,setMsg] = useState("");
+  
 
-
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
 
 	useEffect(() => {
 		axios
@@ -113,7 +106,8 @@ export default function Lectures() {
 
         console.log(response.data);
         console.log("RESPONSE SENT");
-        setOpen(true);
+        setMsg("LECTURE SCHEDULED SUCCESSFULLY");
+        
        
 
     })
@@ -124,9 +118,12 @@ export default function Lectures() {
     
   };
 
+
+
   return (
     <div>
-       {localStorage.getItem("isStudent") == "false" ? 
+       {localStorage.getItem("isStudent") == "false" ?
+       <div> 
        <form  onSubmit = {submitHandle} className={classes.container} noValidate>
        <TextField
          required
@@ -150,8 +147,11 @@ export default function Lectures() {
          }}
        />
       
-      <input type = "submit" value = "SCHEDULE" /> 
-     </form>
+      <input type = "submit" value = "SCHEDULE" /> <br />
+      
+     </form><br />
+     <Typography variant = "h8" style = {{color:"green"}}>{msg}</Typography>
+     </div>
        :
        <form style = {{visibility:"hidden"}} className={classes.container} noValidate>
      <TextField
@@ -207,12 +207,6 @@ export default function Lectures() {
  )
       })} 
      
-    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Lecture scheduled successfully!
-        </Alert>
-      </Snackbar>
-      
     </div>
   );
 }

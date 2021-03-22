@@ -14,6 +14,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import { Typography } from "@material-ui/core";
 const axios = require('axios');
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -74,6 +75,7 @@ export default function CustomizedTables(props) {
   const [studentMarks,setStudentMarks] = React.useState(0);
 const [open, setOpen] = React.useState(false);
 const [studId,setStudId] = React.useState(null);
+const [msg,setMsg] = useState("");
 	const handleClickOpen = (sid) => {
 		setOpen(true);
     setStudId(sid)
@@ -115,6 +117,7 @@ const [studId,setStudId] = React.useState(null);
 
         console.log(response.data);
         console.log("RESPONSE SENT");
+        setMsg("MARKS ENTERED SUCCESSFULLY");
         
        
 
@@ -234,7 +237,8 @@ const [studId,setStudId] = React.useState(null);
               onClick = {submitMarks}
             >
              SUBMIT
-            </Button>
+            </Button><br /><br />
+            <Typography variant = "p" style = {{color:"green"}}>{msg}</Typography>
 		  </div>
 				</DialogContent>
 				<DialogActions>
