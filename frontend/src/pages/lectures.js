@@ -58,7 +58,7 @@ export default function Lectures() {
 	useEffect(() => {
 		axios
 			.get(
-				"https://virtualclassloc.herokuapp.com/tutor/lectures?batchId=6055f18d109fae0004b682d0"
+				`https://virtualclassloc.herokuapp.com/tutor/lectures?batchId=${params.cid}`
 			)
 			.then((response) => {
 				console.log(response.data);
@@ -89,7 +89,7 @@ export default function Lectures() {
 		var dt = istDateTime.split("T");
 		console.log(istDateTime);
 		let assignment = {};
-		let batchId = "6055f18d109fae0004b682d0";
+		let batchId = params.cid;
 		assignment.batchId = batchId;
 		assignment.name = name;
 		assignment.date = utcDate;
@@ -194,6 +194,9 @@ export default function Lectures() {
                             <a href = {item.link} style = {{textDecoration:"none"}} target="_blank" rel = "noopener noreferrer">
 									<Button color="primary" variant="outlined">
 										JOIN HERE
+                    <br />
+                    {item.time.split("T")[0]} <br />
+                    {item.time.split("T")[1]}
 									</Button>
 								</a>
 							</Grid>

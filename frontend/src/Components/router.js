@@ -9,6 +9,7 @@ import Dashboard from "../pages/dashboard.js";
 import Search from "../pages/search.js";
 import Classroom from "../pages/classroom.js";
 import AddClassroom from "../pages/addClass.js";
+import MakeMCQ from "../pages/make_mcq.js";
 import Login from "../pages/login.js";
 import Doubts from "../pages/doubts.js";
 import Signup from "../pages/signup.js";
@@ -31,6 +32,7 @@ function ProtectedRoutes() {
 			<Route exact path="/video-conf" component={VideoConf} />
 			<Route exact path="/whiteboard" component={Whiteboard} />
 			<Route exact path="/class/add" component={AddClassroom} />
+			<Route exact path="/makemcq" component={MakeMCQ} />
 			{localStorage.getItem("isStudent") === "true" ? (
 				<Route exact path="/dashboard" component={DashboardStudent} />
 			) : (

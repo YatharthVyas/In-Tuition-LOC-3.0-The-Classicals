@@ -142,7 +142,7 @@ export default function Assignment() {
 						<Button
 							variant="contained"
 							color="primary"
-							onClick={() => onSubmit()}
+							
 						>
 							Upload
 						</Button>
