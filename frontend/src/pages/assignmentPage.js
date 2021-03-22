@@ -65,7 +65,7 @@ export default function CustomizedTables(props) {
       .catch((error) => {
         console.log(error);
       });
-  });
+  }, []);
 
   return (
     <div>
@@ -85,7 +85,13 @@ export default function CustomizedTables(props) {
             <TableBody>
               {assignments &&
                 assignments.submitted.map((row) => (
-                  <StyledTableRow key={row.name}>
+                  <StyledTableRow
+                    key={row.studentId}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      window.location.assign(row.path);
+                    }}
+                  >
                     <StyledTableCell component="th" scope="row">
                       {row.studentName}
                     </StyledTableCell>
