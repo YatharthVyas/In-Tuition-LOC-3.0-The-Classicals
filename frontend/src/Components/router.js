@@ -30,7 +30,7 @@ function ProtectedRoutes() {
       {localStorage.getItem("isStudent") === "true" && <Chatbot />}
       <Route exact path="/doubts" component={Doubts} />
       <Route exact path="/video-conf" component={VideoConf} />
-      <Route exact path="/whiteboard" component={Whiteboard} />
+      <Route exact path="/whiteboard/:batchId" component={Whiteboard} />
       <Route exact path="/class/add" component={AddClassroom} />
       {localStorage.getItem("isStudent") === "true" ? (
         <Route exact path="/dashboard" component={DashboardStudent} />

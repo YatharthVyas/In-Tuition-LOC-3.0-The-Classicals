@@ -30,57 +30,57 @@ import axios from "axios";
 const drawerWidth = 240;
 
 function TabPanel(props) {
-	const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props;
 
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`full-width-tabpanel-${index}`}
-			aria-labelledby={`full-width-tab-${index}`}
-			{...other}
-		>
-			{value === index && (
-				<Box p={3}>
-					<Typography>{children}</Typography>
-				</Box>
-			)}
-		</div>
-	);
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
 }
 
 TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
 };
 
 function a11yProps(index) {
-	return {
-		id: `full-width-tab-${index}`,
-		"aria-controls": `full-width-tabpanel-${index}`,
-	};
+  return {
+    id: `full-width-tab-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
+  };
 }
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		backgroundColor: theme.palette.background.paper,
-		width: "100%",
-	},
-	paperBorder: {
-		borderStyle: "solid",
-		borderRadius: "10px",
-		borderColor: theme.palette.primary.main,
-		borderWidth: "2px",
-		padding: "20px",
-	},
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    width: "100%",
+  },
+  paperBorder: {
+    borderStyle: "solid",
+    borderRadius: "10px",
+    borderColor: theme.palette.primary.main,
+    borderWidth: "2px",
+    padding: "20px",
+  },
 }));
 
 export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-  const [open,setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -89,18 +89,16 @@ export default function PersistentDrawerLeft() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
-  
-  const [subData,setSubData] = React.useState([]);
+
+  const [subData, setSubData] = React.useState([]);
 
   const [searchTerm, setSearchTerm] = React.useState("");
- 
- const [searchResults, setSearchResults] = React.useState([]);
- const [testOpen,setTestOpen] = React.useState(0);
- 
- const params = useParams();
- console.log(params.cid);
- 
- 
+
+  const [searchResults, setSearchResults] = React.useState([]);
+  const [testOpen, setTestOpen] = React.useState(0);
+
+  const params = useParams();
+  console.log(params.cid);
 
   var subject_data = [
     { title: "MACHINE LEARNING", teacher: "Prof K. Sharma" },
@@ -110,16 +108,16 @@ export default function PersistentDrawerLeft() {
     { title: "WEB DEV", teacher: "Prof K. Sharma" },
     { title: "APPLIED PHYSICS", teacher: "Prof K. Sharma" },
   ];
+  const history = useHistory();
 
   const handleSendId = () => {
     setOpen(false);
     setTestOpen(1);
-};
+  };
 
-
-const handleClose = () => {
+  const handleClose = () => {
     setOpen(false);
-};
+  };
 
   React.useEffect(() => {
     const results = subject_data.filter((sub) =>
@@ -129,53 +127,60 @@ const handleClose = () => {
   }, [searchTerm]);
   console.log(localStorage.getItem("isStudent"));
 
-	return (
-		<div className={classes.root}>
-			<AppBar position="static" color="default">
-				<Tabs
-					value={value}
-					onChange={handleChange}
-					indicatorColor="primary"
-					textColor="primary"
-					variant="fullWidth"
-					aria-label="full width tabs example"
-				>
-					<Tab
-						style={{ paddingLeft: "30px" }}
-						label="Whiteboard"
-						{...a11yProps(0)}
-					/>
-					<Tab label="Lecture" {...a11yProps(1)} />
-					<Tab label="Assignments" {...a11yProps(2)} />
-				</Tabs>
-			</AppBar>
-			<SwipeableViews
-				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-				index={value}
-				onChangeIndex={handleChangeIndex}
-			>
-				<TabPanel
-					style={{ marginTop: "20px" }}
-					value={value}
-					index={0}
-					dir={theme.direction}
-				>
-					<Paper className={classes.paperBorder} elevation={3}>
-						<div align="center">
-							<img src="/assets/images/whiteboard.png" width="1000" />
-						</div>
-						<br />
-						<Grid container spacing={2}>
-							<Grid item xs={9}></Grid>
-							<Grid item xs={3}>
-								<a style={{ textDecoration: "none" }} href="/whiteboard">
-									<Button color="primary" variant="outlined">
-										JOIN HERE
-									</Button>
-								</a>
-							</Grid>
-						</Grid>
-					</Paper><br />
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab
+            style={{ paddingLeft: "30px" }}
+            label="Whiteboard"
+            {...a11yProps(0)}
+          />
+          <Tab label="Lecture" {...a11yProps(1)} />
+          <Tab label="Assignments" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
+        <TabPanel
+          style={{ marginTop: "20px" }}
+          value={value}
+          index={0}
+          dir={theme.direction}
+        >
+          <Paper className={classes.paperBorder} elevation={3}>
+            <div align="center">
+              <img src="/assets/images/whiteboard.png" width="1000" />
+            </div>
+            <br />
+            <Grid container spacing={2}>
+              <Grid item xs={9}></Grid>
+              <Grid item xs={3}>
+                <a
+                  style={{ textDecoration: "none" }}
+                  onClick={() => {
+                    history.push(`/whiteboard/${params.cid}`);
+                  }}
+                  // href="/whiteboard"
+                >
+                  <Button color="primary" variant="outlined">
+                    JOIN HERE
+                  </Button>
+                </a>
+              </Grid>
+            </Grid>
+          </Paper>
+          <br />
         </TabPanel>
         <TabPanel
           style={{ marginTop: "20px" }}
@@ -194,39 +199,39 @@ const handleClose = () => {
           Material
           <Material />
         </TabPanel> */}
-				<TabPanel
-					style={{ marginTop: "20px" }}
-					value={value}
-					index={2}
-					dir={theme.direction}
-				>
-					<strong>SCHEDULE AN ASSIGNMENT</strong>
-					<Assignment />
-					<br />
-					<br />
-				</TabPanel>
-			</SwipeableViews>
-			<Dialog
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="alert-dialog-title"
-				aria-describedby="alert-dialog-description"
-			>
-				<DialogTitle id="alert-dialog-title">
-					{"Are you sure you want to attempt the test?"}
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText id="alert-dialog-description"></DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleSendId} color="primary">
-						<p id="Sid"> Yes </p>
-					</Button>
-					<Button onClick={handleClose} color="primary" autoFocus>
-						No
-					</Button>
-				</DialogActions>
-			</Dialog>
-		</div>
-	);
+        <TabPanel
+          style={{ marginTop: "20px" }}
+          value={value}
+          index={2}
+          dir={theme.direction}
+        >
+          <strong>SCHEDULE AN ASSIGNMENT</strong>
+          <Assignment />
+          <br />
+          <br />
+        </TabPanel>
+      </SwipeableViews>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to attempt the test?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description"></DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleSendId} color="primary">
+            <p id="Sid"> Yes </p>
+          </Button>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
