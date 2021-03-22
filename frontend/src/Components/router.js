@@ -4,12 +4,12 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 import Whiteboard from "../pages/whiteboard.js";
 import DashboardStudent from "../pages/dashboard_student.js";
+import MakeMCQ from "../pages/make_mcq";
 import ClassroomTeacher from "../pages/classroom_teacher.js";
 import Dashboard from "../pages/dashboard.js";
 import Search from "../pages/search.js";
 import Classroom from "../pages/classroom.js";
 import AddClassroom from "../pages/addClass.js";
-import MakeMCQ from "../pages/make_mcq.js";
 import Login from "../pages/login.js";
 import Doubts from "../pages/doubts.js";
 import Signup from "../pages/signup.js";
@@ -26,21 +26,21 @@ import Assignment from "./Assignment";
 import UploadAssignment from "./UploadAssignment";
 
 function ProtectedRoutes() {
-	return localStorage.getItem("userId") ? (
-		<div>
-			{localStorage.getItem("isStudent") === "true" && <Chatbot />}
-			<Route exact path="/doubts" component={Doubts} />
-			<Route exact path="/video-conf" component={VideoConf} />
-			<Route exact path="/whiteboard" component={Whiteboard} />
-			<Route exact path="/class/add" component={AddClassroom} />
-			<Route exact path="/makemcq" component={MakeMCQ} />
-			{localStorage.getItem("isStudent") === "true" ? (
-				<Route exact path="/dashboard" component={DashboardStudent} />
-			) : (
-				<Route exact path="/dashboard" component={Dashboard} />
-			)}
+  return localStorage.getItem("userId") ? (
+    <div>
+      {localStorage.getItem("isStudent") === "true" && <Chatbot />}
+      <Route exact path="/doubts" component={Doubts} />
+      <Route exact path="/video-conf" component={VideoConf} />
+      <Route exact path="/whiteboard/:batchId" component={Whiteboard} />
+      <Route exact path="/class/add" component={AddClassroom} />
+      {localStorage.getItem("isStudent") === "true" ? (
+        <Route exact path="/dashboard" component={DashboardStudent} />
+      ) : (
+        <Route exact path="/dashboard" component={Dashboard} />
+      )}
 
       <Route exact path="/search" component={Search} />
+      <Route exact path="/makemcq" component={MakeMCQ} />
       <Route exact path="/classroom/:cid" component={Classroom} />
       <Route exact path="/teachclassroom/:cid" component={ClassroomTeacher} />
       <Route exact path="/upload/:assignId" component={UploadAssignment} />
