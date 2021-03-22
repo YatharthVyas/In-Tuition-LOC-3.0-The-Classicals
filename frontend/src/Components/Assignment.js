@@ -11,6 +11,13 @@ import { scheduleAssignment, getAssignment } from "./helper";
 import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import { useHistory } from "react-router-dom";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+const axios = require('axios');
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "block",
@@ -44,9 +51,13 @@ export default function Assignment() {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [dateTime, setDateTime] = useState(new Date().toISOString());
+  const [date, setDate] = useState(new Date());
+  const [deadlineInput,setDeadlineInput] = useState(new Date().toISOString());
+  const [changeDeadline,setChangeDeadline] = useState(new Date().toISOString());
   const [pathFire, setPathFire] = useState("");
   const [image, setImage] = useState(null);
   const [assignments, setAssignments] = useState([]);
+  const [assignId,setAssignId] = useState(null);
 
   const uploadToFirebaseStorage = async (e) => {
     const file = e.target.files[0];
@@ -59,6 +70,7 @@ export default function Assignment() {
       // setPathFire(url);
     });
   };
+  console.log("UID " + localStorage.getItem("userId"));
   useEffect(() => {
     // console.log(image);
     console.log(dateTime);
@@ -91,7 +103,9 @@ export default function Assignment() {
     assignment.time = utcTime;
     assignment.istDateTime = istDateTime;
     assignment.path = url;
-    // assignment.fileName = res.name;
+	assignment.deadline = new Date(deadlineInput).toISOString();
+	
+    //assignment.fileName = res.name;
     // assignment.filePathLocal = res.uri;
     console.log("ASSIGN", assignment);
     scheduleAssignment(assignment).then(() => {
@@ -99,11 +113,46 @@ export default function Assignment() {
       console.log("SUCCESS");
     });
   };
+  console.log("TODAY DATE : " + date.getTime());
+  console.log("TODAY TIME : " + date.toISOString().substring(0,21));
 
+  const [open, setOpen] = React.useState(false);
+	const handleClickOpen = (aid) => {
+		setOpen(true);
+		setAssignId(aid);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handleUpdate = () => {
+		axios.post("https://virtualclassloc.herokuapp.com/tutor/extend-deadline",
+    {
+        
+        assignment_id : assignId,
+		new_deadline : new Date(changeDeadline).toISOString(),
+    }
+   
+    ).then((response) => {
+
+        console.log(response.data);
+        console.log("RESPONSE SENT");
+        
+       
+
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+	}
+
+	
+	
   return (
     <div>
       <br />
-      {localStorage.getItem("isStudent") && (
+      {localStorage.getItem("isStudent") != "true" && (
         <div className={classes.form}>
           <form className={classes.container} noValidate>
             <TextField
@@ -119,7 +168,7 @@ export default function Assignment() {
             <TextField
               style={{ marginRight: 60 }}
               id="datetime-local"
-              label="Next appointment"
+              label="Schedule Time"
               type="datetime-local"
               // defaultValue="2017-05-24T10:30"
               value={dateTime}
@@ -133,6 +182,24 @@ export default function Assignment() {
             />
             <br />
             <br />
+			<TextField
+              style={{ marginRight: 60 }}
+              id="datetime-local"
+              label="Set Deadline"
+              type="datetime-local"
+              // defaultValue="2017-05-24T10:30"
+              value={deadlineInput}
+              onChange={(e) => {
+                setDeadlineInput(e.target.value);
+              }}
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+			<br />
+			<br />
+
             {/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
             <TextField type="file" onChange={uploadToFirebaseStorage} />
             {/* Keep this submit button as dummy */}
@@ -142,7 +209,7 @@ export default function Assignment() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => onSubmit()}
+              
             >
               Upload
             </Button>
@@ -155,14 +222,34 @@ export default function Assignment() {
           return (
             <div key={index}>
               {console.log(assignment)}
+			  {console.log("DEADLINE " + new Date(assignment.deadline).getTime())}
+			
               <Paper className={classes.paperBorder} elevation={3}>
                 <Grid container spacing={2}>
-                  <Grid item xs={9}>
+                  <Grid item xs={8}>
                     <h2
                       onClick={() => {
                         console.log(localStorage.getItem("isStudent"));
                         if (localStorage.getItem("isStudent") === "true")
-                          history.push(`/upload/${assignment.assignId}`);
+						{
+							if(new Date(assignment.deadline).getTime() > new Date().getTime())
+							{
+								history.push({
+									pathname: `/upload/${assignment.assignId}`,
+									
+									state: { detail: 1, complete:assignment.completed}
+								  })
+								
+							}
+							
+							else
+							history.push({
+								pathname: `/upload/${assignment.assignId}`,
+								
+								state: { detail: 0}
+							  })
+						}
+  
                         else
                           history.push(
                             `/assignment/${params.cid}/${assignment.assignId}`
@@ -173,8 +260,10 @@ export default function Assignment() {
                       {assignment.name.toUpperCase()}
                     </h2>
                   </Grid>
-                  <Grid item xs={3}>
-                    <a
+                  <Grid item xs={4}>
+					  <Grid container spacing = {2}>
+						  <Grid item xs = {6}>
+						  <a
                       href={assignment.path}
                       style={{ textDecoration: "none" }}
                       target="_blank"
@@ -188,6 +277,26 @@ export default function Assignment() {
                         {assignment.istDateTime.split("T")[1]}
                       </Button>
                     </a>
+						  </Grid>
+						  <Grid item xs = {6}>
+						  {localStorage.getItem("isStudent") == "true" ? 
+							assignment.marks != 0 ?
+							<Button color = "primary" variant = "outlined">
+								Marks<br />
+								{assignment.marks}
+							</Button>
+							:
+							null
+							: 
+							<Button onClick = {() => handleClickOpen(assignment.assignId)} color = "primary" variant = "outlined">
+							Update<br />
+							Deadline
+							</Button>
+					}
+						  </Grid>
+					  </Grid>
+                   
+					
                   </Grid>
                 </Grid>
               </Paper>
@@ -195,6 +304,58 @@ export default function Assignment() {
             </div>
           );
         })}
+		<Dialog
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				<DialogTitle id="alert-dialog-title">
+					{"Are you sure you want to attempt the test?"}
+				</DialogTitle>
+				<DialogContent>
+				<div className={classes.form}>
+          <form className={classes.container} noValidate>
+            
+            <br />
+            <br />
+           
+			<TextField
+              style={{ marginRight: 60 }}
+              id="datetime-local"
+              label="Change Deadline"
+              type="datetime-local"
+              
+              value={changeDeadline}
+              onChange={(e) => {
+                setChangeDeadline(e.target.value);
+              }}
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+			<br />
+			<br />
+
+           
+          </form>
+		  <Button
+              variant="contained"
+              color="primary"
+              onClick = {handleUpdate}
+            >
+             UPDATE
+            </Button>
+		  </div>
+				</DialogContent>
+				<DialogActions>
+					
+					<Button onClick={handleClose} color="primary" autoFocus>
+						CLOSE
+					</Button>
+				</DialogActions>
+			</Dialog>
     </div>
   );
 }
