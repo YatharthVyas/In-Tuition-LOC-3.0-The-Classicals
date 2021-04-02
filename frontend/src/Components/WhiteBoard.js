@@ -89,7 +89,8 @@ function Whiteboard(props) {
       console.log(attentionInput);
       let config = {
         method: "get",
-        url: "/tutor/attentive/?checkStr=" + attentionInput,
+        url: `/tutor/attentive/?checkStr=${attentionInput}&classroomId=${params.batchId}`,
+
         headers: {},
       };
 
