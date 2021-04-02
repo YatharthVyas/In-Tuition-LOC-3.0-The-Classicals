@@ -4,6 +4,7 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 import Whiteboard from "../pages/whiteboard.js";
 import DashboardStudent from "../pages/dashboard_student.js";
+import MakeMCQ from "../pages/make_mcq";
 import ClassroomTeacher from "../pages/classroom_teacher.js";
 import Dashboard from "../pages/dashboard.js";
 import Search from "../pages/search.js";
@@ -39,6 +40,7 @@ function ProtectedRoutes() {
       )}
 
       <Route exact path="/search" component={Search} />
+      <Route exact path="/makemcq" component={MakeMCQ} />
       <Route exact path="/classroom/:cid" component={Classroom} />
       <Route exact path="/teachclassroom/:cid" component={ClassroomTeacher} />
       <Route exact path="/upload/:assignId" component={UploadAssignment} />

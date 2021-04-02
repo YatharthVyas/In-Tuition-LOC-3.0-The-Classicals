@@ -1,4 +1,5 @@
 export const scheduleAssignment = async (assignment) => {
+  
   try {
     let createdAssignment = await fetch(
       "https://virtualclassloc.herokuapp.com/tutor/schedule",
@@ -18,8 +19,9 @@ export const scheduleAssignment = async (assignment) => {
 };
 export const getAssignment = async (batchId) => {
   try {
+    const uid = localStorage.getItem("userId");
     let assignments = await fetch(
-      `https://virtualclassloc.herokuapp.com/tutor/assignments?batchId=${batchId}`,
+      `https://virtualclassloc.herokuapp.com/tutor/assignments?batchId=${batchId}&student_id=${uid}`,
       {
         method: "GET",
         headers: {

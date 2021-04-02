@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { isPromise } from "formik";
+import { Typography } from "@material-ui/core";
 
 const axios = require('axios');
 
@@ -43,22 +44,14 @@ export default function Lectures() {
   const [name, setName] = useState("");
   const [dateTime, setDateTime] = useState(new Date().toISOString());
   const [lecs,setLecs] = useState([]);
-  const [open, setOpen] = React.useState(false);
+  const [msg,setMsg] = useState("");
+  
 
-
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
 
 	useEffect(() => {
 		axios
 			.get(
-				"https://virtualclassloc.herokuapp.com/tutor/lectures?batchId=6055f18d109fae0004b682d0"
+				`https://virtualclassloc.herokuapp.com/tutor/lectures?batchId=${params.cid}`
 			)
 			.then((response) => {
 				console.log(response.data);
@@ -89,7 +82,7 @@ export default function Lectures() {
 		var dt = istDateTime.split("T");
 		console.log(istDateTime);
 		let assignment = {};
-		let batchId = "6055f18d109fae0004b682d0";
+		let batchId = params.cid;
 		assignment.batchId = batchId;
 		assignment.name = name;
 		assignment.date = utcDate;
@@ -113,7 +106,8 @@ export default function Lectures() {
 
         console.log(response.data);
         console.log("RESPONSE SENT");
-        setOpen(true);
+        setMsg("LECTURE SCHEDULED SUCCESSFULLY");
+        
        
 
     })
@@ -124,9 +118,12 @@ export default function Lectures() {
     
   };
 
+
+
   return (
     <div>
-       {localStorage.getItem("isStudent") == "false" ? 
+       {localStorage.getItem("isStudent") == "false" ?
+       <div> 
        <form  onSubmit = {submitHandle} className={classes.container} noValidate>
        <TextField
          required
@@ -150,8 +147,11 @@ export default function Lectures() {
          }}
        />
       
-      <input type = "submit" value = "SCHEDULE" /> 
-     </form>
+      <input type = "submit" value = "SCHEDULE" /> <br />
+      
+     </form><br />
+     <Typography variant = "h8" style = {{color:"green"}}>{msg}</Typography>
+     </div>
        :
        <form style = {{visibility:"hidden"}} className={classes.container} noValidate>
      <TextField
@@ -194,6 +194,9 @@ export default function Lectures() {
                             <a href = {item.link} style = {{textDecoration:"none"}} target="_blank" rel = "noopener noreferrer">
 									<Button color="primary" variant="outlined">
 										JOIN HERE
+                    <br />
+                    {item.time.split("T")[0]} <br />
+                    {item.time.split("T")[1]}
 									</Button>
 								</a>
 							</Grid>
@@ -204,12 +207,6 @@ export default function Lectures() {
  )
       })} 
      
-    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Lecture scheduled successfully!
-        </Alert>
-      </Snackbar>
-      
     </div>
   );
 }
