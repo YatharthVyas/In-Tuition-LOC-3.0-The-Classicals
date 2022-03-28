@@ -278,7 +278,7 @@ export default function Signup() {
 							/>
 							<br />
 							<ReCAPTCHA
-								sitekey="6Leu8_QZAAAAAF_RAJJPjOsvrmbyoYEk1KNBiCSg"
+								sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
 								onChange={(e) => setCaptcha(true)}
 								theme={currentTheme === "dark" ? "dark" : "light"}
 							/>
