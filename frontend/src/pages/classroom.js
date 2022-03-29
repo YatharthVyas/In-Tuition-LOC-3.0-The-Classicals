@@ -128,7 +128,7 @@ export default function PersistentDrawerLeft() {
   React.useEffect(() => {
     axios
       .get(
-        `https://virtualclassloc.herokuapp.com/tutor/mybatches/?tutorId=${localStorage.getItem(
+        `https://loc-backend-acm.herokuapp.com/tutor/mybatches/?tutorId=${localStorage.getItem(
           "userId"
         )}`
       )

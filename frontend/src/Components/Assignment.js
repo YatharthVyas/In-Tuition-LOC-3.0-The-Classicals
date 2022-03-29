@@ -11,14 +11,14 @@ import { scheduleAssignment, getAssignment } from "./helper";
 import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import { useHistory } from "react-router-dom";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import { Typography } from "@material-ui/core";
 
-const axios = require('axios');
+const axios = require("axios");
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "block",
@@ -53,14 +53,16 @@ export default function Assignment() {
   const [name, setName] = useState("");
   const [dateTime, setDateTime] = useState(new Date().toISOString());
   const [date, setDate] = useState(new Date());
-  const [deadlineInput,setDeadlineInput] = useState(new Date().toISOString());
-  const [changeDeadline,setChangeDeadline] = useState(new Date().toISOString());
+  const [deadlineInput, setDeadlineInput] = useState(new Date().toISOString());
+  const [changeDeadline, setChangeDeadline] = useState(
+    new Date().toISOString()
+  );
   const [pathFire, setPathFire] = useState("");
   const [image, setImage] = useState(null);
   const [assignments, setAssignments] = useState([]);
-  const [assignId,setAssignId] = useState(null);
-  const [msg,setMsg] = useState("");
-  const [msg1,setMsg1] = useState("");
+  const [assignId, setAssignId] = useState(null);
+  const [msg, setMsg] = useState("");
+  const [msg1, setMsg1] = useState("");
 
   const uploadToFirebaseStorage = async (e) => {
     const file = e.target.files[0];
@@ -106,8 +108,8 @@ export default function Assignment() {
     assignment.time = utcTime;
     assignment.istDateTime = istDateTime;
     assignment.path = url;
-	assignment.deadline = new Date(deadlineInput).toISOString();
-	
+    assignment.deadline = new Date(deadlineInput).toISOString();
+
     //assignment.fileName = res.name;
     // assignment.filePathLocal = res.uri;
     console.log("ASSIGN", assignment);
@@ -118,42 +120,34 @@ export default function Assignment() {
     });
   };
   console.log("TODAY DATE : " + date.getTime());
-  console.log("TODAY TIME : " + date.toISOString().substring(0,21));
+  console.log("TODAY TIME : " + date.toISOString().substring(0, 21));
 
   const [open, setOpen] = React.useState(false);
-	const handleClickOpen = (aid) => {
-		setOpen(true);
-		setAssignId(aid);
-	};
+  const handleClickOpen = (aid) => {
+    setOpen(true);
+    setAssignId(aid);
+  };
 
-	const handleClose = () => {
-		setOpen(false);
-	};
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-	const handleUpdate = () => {
-		axios.post("https://virtualclassloc.herokuapp.com/tutor/extend-deadline",
-    {
-        
-        assignment_id : assignId,
-		new_deadline : new Date(changeDeadline).toISOString(),
-    }
-   
-    ).then((response) => {
-
+  const handleUpdate = () => {
+    axios
+      .post("https://loc-backend-acm.herokuapp.com/tutor/extend-deadline", {
+        assignment_id: assignId,
+        new_deadline: new Date(changeDeadline).toISOString(),
+      })
+      .then((response) => {
         console.log(response.data);
         console.log("RESPONSE SENT");
         setMsg1("DEADLINE UPDATED SUCCESSFULLY");
-        
-       
-
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.log(err);
-    })
-	}
+      });
+  };
 
-	
-	
   return (
     <div>
       <br />
@@ -187,7 +181,7 @@ export default function Assignment() {
             />
             <br />
             <br />
-			<TextField
+            <TextField
               style={{ marginRight: 60 }}
               id="datetime-local"
               label="Set Deadline"
@@ -202,24 +196,22 @@ export default function Assignment() {
                 shrink: true,
               }}
             />
-			<br />
-			<br />
-
+            <br />
+            <br />
             {/* <input type="file" onChange={uploadToFirebaseStorage} /> */}
             <TextField type="file" onChange={uploadToFirebaseStorage} />
             {/* Keep this submit button as dummy */}
             <br />
           </form>
           <div align="center">
-            <Button
-              variant="contained"
-              color="primary"
-              
-            >
+            <Button variant="contained" color="primary">
               Upload
             </Button>
-            <br /><br />
-            <Typography variant = "p" style = {{color:"green"}}>{msg}</Typography>
+            <br />
+            <br />
+            <Typography variant="p" style={{ color: "green" }}>
+              {msg}
+            </Typography>
           </div>
         </div>
       )}
@@ -229,35 +221,36 @@ export default function Assignment() {
           return (
             <div key={index}>
               {console.log(assignment)}
-			  {console.log("DEADLINE " + new Date(assignment.deadline).getTime())}
-			
+              {console.log(
+                "DEADLINE " + new Date(assignment.deadline).getTime()
+              )}
+
               <Paper className={classes.paperBorder} elevation={3}>
                 <Grid container spacing={2}>
                   <Grid item xs={8}>
                     <h2
                       onClick={() => {
                         console.log(localStorage.getItem("isStudent"));
-                        if (localStorage.getItem("isStudent") === "true")
-						{
-							if(new Date(assignment.deadline).getTime() > new Date().getTime())
-							{
-								history.push({
-									pathname: `/upload/${assignment.assignId}`,
-									
-									state: { detail: 1, complete:assignment.completed}
-								  })
-								
-							}
-							
-							else
-							history.push({
-								pathname: `/upload/${assignment.assignId}`,
-								
-								state: { detail: 0}
-							  })
-						}
-  
-                        else
+                        if (localStorage.getItem("isStudent") === "true") {
+                          if (
+                            new Date(assignment.deadline).getTime() >
+                            new Date().getTime()
+                          ) {
+                            history.push({
+                              pathname: `/upload/${assignment.assignId}`,
+
+                              state: {
+                                detail: 1,
+                                complete: assignment.completed,
+                              },
+                            });
+                          } else
+                            history.push({
+                              pathname: `/upload/${assignment.assignId}`,
+
+                              state: { detail: 0 },
+                            });
+                        } else
                           history.push(
                             `/assignment/${params.cid}/${assignment.assignId}`
                           );
@@ -268,42 +261,45 @@ export default function Assignment() {
                     </h2>
                   </Grid>
                   <Grid item xs={4}>
-					  <Grid container spacing = {2}>
-						  <Grid item xs = {6}>
-						  <a
-                      href={assignment.path}
-                      style={{ textDecoration: "none" }}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {" "}
-                      <Button color="primary" variant="outlined">
-                        ASSIGNED DATE: <br />
-                        {assignment.istDateTime.split("T")[0]}
-                        <br />
-                        {assignment.istDateTime.split("T")[1]}
-                      </Button>
-                    </a>
-						  </Grid>
-						  <Grid item xs = {6}>
-						  {localStorage.getItem("isStudent") == "true" ? 
-							assignment.marks != 0 ?
-							<Button color = "primary" variant = "outlined">
-								Marks<br />
-								{assignment.marks}
-							</Button>
-							:
-							null
-							: 
-							<Button onClick = {() => handleClickOpen(assignment.assignId)} color = "primary" variant = "outlined">
-							Update<br />
-							Deadline
-							</Button>
-					}
-						  </Grid>
-					  </Grid>
-                   
-					
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <a
+                          href={assignment.path}
+                          style={{ textDecoration: "none" }}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {" "}
+                          <Button color="primary" variant="outlined">
+                            ASSIGNED DATE: <br />
+                            {assignment.istDateTime.split("T")[0]}
+                            <br />
+                            {assignment.istDateTime.split("T")[1]}
+                          </Button>
+                        </a>
+                      </Grid>
+                      <Grid item xs={6}>
+                        {localStorage.getItem("isStudent") == "true" ? (
+                          assignment.marks != 0 ? (
+                            <Button color="primary" variant="outlined">
+                              Marks
+                              <br />
+                              {assignment.marks}
+                            </Button>
+                          ) : null
+                        ) : (
+                          <Button
+                            onClick={() => handleClickOpen(assignment.assignId)}
+                            color="primary"
+                            variant="outlined"
+                          >
+                            Update
+                            <br />
+                            Deadline
+                          </Button>
+                        )}
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Paper>
@@ -311,59 +307,54 @@ export default function Assignment() {
             </div>
           );
         })}
-		<Dialog
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="alert-dialog-title"
-				aria-describedby="alert-dialog-description"
-			>
-				<DialogTitle id="alert-dialog-title">
-					{"Are you sure you want to attempt the test?"}
-				</DialogTitle>
-				<DialogContent>
-				<div className={classes.form}>
-          <form className={classes.container} noValidate>
-            
-            <br />
-            <br />
-           
-			<TextField
-              style={{ marginRight: 60 }}
-              id="datetime-local"
-              label="Change Deadline"
-              type="datetime-local"
-              
-              value={changeDeadline}
-              onChange={(e) => {
-                setChangeDeadline(e.target.value);
-              }}
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-			<br />
-			<br />
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to attempt the test?"}
+        </DialogTitle>
+        <DialogContent>
+          <div className={classes.form}>
+            <form className={classes.container} noValidate>
+              <br />
+              <br />
 
-           
-          </form>
-		  <Button
-              variant="contained"
-              color="primary"
-              onClick = {handleUpdate}
-            >
-             UPDATE
-            </Button><br /><br />
-            <Typography variant = "p" style = {{color:"green"}}>{msg1}</Typography>
-		  </div>
-				</DialogContent>
-				<DialogActions>
-					
-					<Button onClick={handleClose} color="primary" autoFocus>
-						CLOSE
-					</Button>
-				</DialogActions>
-			</Dialog>
+              <TextField
+                style={{ marginRight: 60 }}
+                id="datetime-local"
+                label="Change Deadline"
+                type="datetime-local"
+                value={changeDeadline}
+                onChange={(e) => {
+                  setChangeDeadline(e.target.value);
+                }}
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <br />
+              <br />
+            </form>
+            <Button variant="contained" color="primary" onClick={handleUpdate}>
+              UPDATE
+            </Button>
+            <br />
+            <br />
+            <Typography variant="p" style={{ color: "green" }}>
+              {msg1}
+            </Typography>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            CLOSE
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
