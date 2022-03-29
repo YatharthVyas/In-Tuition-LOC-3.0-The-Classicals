@@ -2,7 +2,7 @@ export const scheduleAssignment = async (assignment) => {
   
   try {
     let createdAssignment = await fetch(
-      "https://virtualclassloc.herokuapp.com/tutor/schedule",
+      "https://loc-backend-acm.herokuapp.com/tutor/schedule",
       {
         method: "POST",
         headers: {
@@ -21,7 +21,7 @@ export const getAssignment = async (batchId) => {
   try {
     const uid = localStorage.getItem("userId");
     let assignments = await fetch(
-      `https://virtualclassloc.herokuapp.com/tutor/assignments?batchId=${batchId}&student_id=${uid}`,
+      `https://loc-backend-acm.herokuapp.com/tutor/assignments?batchId=${batchId}&student_id=${uid}`,
       {
         method: "GET",
         headers: {
@@ -41,7 +41,7 @@ export const getAssignment = async (batchId) => {
 export const sendResponse = async (response) => {
   try {
     let submittedResponse = await fetch(
-      `https://virtualclassloc.herokuapp.com/student/response`,
+      `https://loc-backend-acm.herokuapp.com/student/response`,
       {
         method: "POST",
         headers: {
